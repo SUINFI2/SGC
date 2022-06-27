@@ -1,0 +1,32 @@
+{
+  "name": "backend-destored",
+  "version": "1.0.0",
+  "description": "Backend con NodeJS\r RESTapi con Express\r DB postgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "lint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucianoMassa98/Backend-Destored.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucianoMassa98/Backend-Destored/issues"
+  },
+  "homepage": "https://github.com/LucianoMassa98/Backend-Destored#readme",
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.18",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
