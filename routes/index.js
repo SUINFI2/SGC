@@ -1,4 +1,6 @@
-/*const categoriasRouter = require('./categorias.router');
+const express = require('express');
+/*
+const categoriasRouter = require('./categorias.router');
 const clientesRouter = require('./clientes.router');
 const cobrosRouter = require('./cobros.router');
 const comprasRouter = require('./compras.router');
@@ -20,7 +22,8 @@ const usuariosRouter = require('./usuarios.router');
 const ventasRouter = require('./ventas.router');
 */
 function routerApi(app) {
-
+    const router = express.router();
+    app.use('API/v1');
 /*
  app.use('/categorias', categoriasRouter);
  app.use('/clientes', clientesRouter);
@@ -34,15 +37,13 @@ function routerApi(app) {
  app.use('/personas', personasRouter);
  app.use('/producciones', produccionesRouter);
   */
- app.use('/productos', productosRouter);
-
+ router.use('/productos', productosRouter);
 /*
- app.use('/proveedores', proveedoresRouter);
- app.use('/roles', rolesRouter);
- app.use('/trasladosmp', trasladosMPRouter);
- app.use('/trasladosproducto', trasladosProductoRouter);
- app.use('/usuarios', usuariosRouter);
- app.use('/ventas', ventasRouter); */
+ router.use('/proveedores', proveedoresRouter);
+ router.use('/roles', rolesRouter);
+ router.use('/trasladosmp', trasladosMPRouter);
+ router.use('/trasladosproducto', trasladosProductoRouter);
+ router.use('/usuarios', usuariosRouter);
+ router.use('/ventas', ventasRouter); */
 }
-
 module.exports = routerApi;
