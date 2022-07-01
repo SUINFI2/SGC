@@ -1,20 +1,23 @@
 const express=require('express');
 const router=express.Router();
+const ProductoService = require('../services/productos.service');
+const service = new ProductoService();
 
 router.get('/',(req,res)=>{
-  const products=[{},{}];
-  const{size}=req.query;
+  const products=service.find();
    res.json(products);
 });
+router.get('/:id',(req,res)=>{
+  const{id}=req.params;
+  const producto = service.findOne(id);
+  res.json(producto);
 
+});
 router.get('/filter',(req,res)=>{
   res.send('Yo soy un filter');
 });
 
-router.get('/:id',(req,res)=>{
-  const{id}=req.params;
-  res.json({id,name:'Product 2',price:2000})
-;});
+
 
 router.post('/', (req, res) => {
   const body = req.body;

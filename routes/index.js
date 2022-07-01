@@ -22,8 +22,9 @@ const usuariosRouter = require('./usuarios.router');
 const ventasRouter = require('./ventas.router');
 */
 function routerApi(app) {
-    const router = express.router();
-    app.use('API/v1');
+    const router = express.Router();
+    app.use('/api/v1',router);
+    router.use('/productos', productosRouter);
 /*
  app.use('/categorias', categoriasRouter);
  app.use('/clientes', clientesRouter);
@@ -37,7 +38,7 @@ function routerApi(app) {
  app.use('/personas', personasRouter);
  app.use('/producciones', produccionesRouter);
   */
- router.use('/productos', productosRouter);
+
 /*
  router.use('/proveedores', proveedoresRouter);
  router.use('/roles', rolesRouter);
