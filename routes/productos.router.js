@@ -3,15 +3,14 @@ const router=express.Router();
 const ProductoService = require('../services/productos.service');
 const service = new ProductoService();
 
-router.get('/',(req,res)=>{
-  const products=service.find();
+router.get('/',async (req,res)=>{
+  const products=await service.find();
    res.json(products);
 });
-router.get('/:id',(req,res)=>{
+router.get('/:id',async (req,res)=>{
   const{id}=req.params;
-  const producto = service.findOne(id);
+  const producto = await service.findOne(id);
   res.json(producto);
-
 });
 router.get('/filter',(req,res)=>{
   res.send('Yo soy un filter');
@@ -21,27 +20,23 @@ router.get('/filter',(req,res)=>{
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.statusCode(2001).json({
+  const Newproducto = service.create(body);
+  res.json({
     message: 'created',
-    data: body
+    data: Newproducto
   });
 });
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'update',
-    data: body,
-    id,
-  });
+  const prodUpdate = service.update(id,body);
+  res.json(prodUpdate);
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'deleted',
-    id,
-  });
+  const delProd = service.delete(id);
+  res.json(delProd);
 });
 
 module.exports=router;

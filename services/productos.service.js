@@ -1,3 +1,5 @@
+const  Generador = require('../modules/Generador');
+
 class ProductoService{
 
   constructor(){
@@ -6,19 +8,49 @@ class ProductoService{
   }
   generate(){
     this.productos = [
-      {id:'12', nombre:"prd1"},
-      {id:'13', nombre:"prd2"},
-      {id:'14', nombre:"prd3"}
+      {id:'1', nombre:"prd1", price: 100},
+      {id:'2', nombre:"prd2", price: 200},
+      {id:'3', nombre:"prd3", price: 300}
     ]
   }
-  create(){}
-  find(){
-    return this.productos;
+  async create(data){
+
+  const Newproducto ={
+        id: Generador.NewCodProd(this.productos),
+        ...data
+    }
+    this.productos.push(Newproducto);
+    return Newproducto;
   }
-  findOne(id){
+   find(){
+    return new Promise((resolve, reject)=>{
+    setTimeout(() => {
+      resolve(this.productos);
+    }, 5000);
+    });
+  }
+  async findOne(id){
     return this.productos.find((items) => items.id === id);
   }
-  update(id, change){}
-  delete(id){}
+  async update(id, change){
+    const index = this.productos.findIndex(item => item.id === id );
+    if(index === -1){ throw new Error("Producto inexistente");}
+
+    const producto = this.productos[index];
+    this.productos[index] = {
+      ...producto,
+      ...change
+    }
+    return true;
+  }
+  async delete(id){
+    const index = this.productos.findIndex(item => item.id === id );
+    if(index === -1){ throw new Error("Producto inexistente");}
+
+    this.productos.splice(index,1);
+    return {id};
+
+
+  }
 }
 module.exports = ProductoService;
