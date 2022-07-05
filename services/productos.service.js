@@ -1,5 +1,5 @@
 const  Generador = require('../modules/Generador');
-
+const boom = require('@hapi/boom');
 class ProductoService{
 
   constructor(){
@@ -30,18 +30,21 @@ class ProductoService{
     });
   }
   async findOne(id){
-    return this.productos.find((items) => items.id === id);
+    const producto =  this.productos.find((items) => items.id === id);
+    if(!producto)
+        {throw boom.notFound('Product not found');}
+    return producto;
   }
   async update(id, change){
     const index = this.productos.findIndex(item => item.id === id );
-    if(index === -1){ throw new Error("Producto inexistente");}
+    if(index === -1){ throw boom.notFound('Product not found');}
 
     const producto = this.productos[index];
     this.productos[index] = {
       ...producto,
       ...change
     }
-    return true;
+    return this.productos[index] ;
   }
   async delete(id){
     const index = this.productos.findIndex(item => item.id === id );
