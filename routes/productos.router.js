@@ -1,6 +1,9 @@
 const express=require('express');
 const router=express.Router();
 const ProductoService = require('../services/productos.service');
+const {createProductoSchema,
+  updateProductoSchema,
+  getProductoSchema} = require('../schemas/producto.schema');
 const service = new ProductoService();
 
 router.get('/',async (req,res)=>{
