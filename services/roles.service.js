@@ -1,8 +1,8 @@
 class RolesService {
   async create(data){}
   async find(){}
-  async findOne(){}
+  async findOne(id){}
   async update(id,changes){}
-  async delete(){}
+  async delete(id){}
 }
 module.exports = RolesService;

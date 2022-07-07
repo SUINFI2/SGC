@@ -1,8 +1,8 @@
 class ClientesService {
-  async create(data){}
-  async find(){}
-  async findOne(){}
-  async update(id,changes){}
-  async delete(){}
+  async create(negocioId,data){}
+  async find(negocioId){}
+  async findOne(negocioId,clienteId){}
+  async update(negocioId,clienteId,changes){}
+  async delete(negocioId,clienteId){}
 }
 module.exports = ClientesService;

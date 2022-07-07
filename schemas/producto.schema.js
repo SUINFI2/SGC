@@ -1,25 +1,33 @@
 const joi = require('joi');
 const id = joi.string();
+const codBarra = joi.string();
 const nombre = joi.string().min(3);
-const precio =  joi.number().positive();
-const createProductoSchema = joi.object({
+const costo =  joi.number().positive();
+const cantidad =  joi.number().positive();
+const margen =  joi.number().positive();
+const createproductoSchema = joi.object({
+  negocioId: id.required(),
+  codBarra: codBarra.required(),
   nombre: nombre.required(),
-  precio: precio.required()
+  costo: costo.required(),
+  cantidad: cantidad.required(),
+  margen: margen.required(),
+  catogoriaId: id.required()
 });
-const updateProductoSchema = joi.object({
-  nombre,
-  precio,
+const updateproductoSchema = joi.object({
+ codBarra,
+ nombre,
+ costo,
+ cantidad,
+ margen
 });
-const getProductoSchema = joi.object({
+const getproductoSchema = joi.object({
   negocioId: id.required(),
   productoId: id.required()
 });
-const getNegocioSchema = joi.object({
-  negocioId: id.required()
-});
+
 module.exports = {
-  createProductoSchema,
-  updateProductoSchema,
-  getProductoSchema,
-  getNegocioSchema
+  createproductoSchema,
+  updateproductoSchema,
+  getproductoSchema
   };

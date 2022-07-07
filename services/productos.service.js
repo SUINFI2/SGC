@@ -17,19 +17,18 @@ class ProductoService{
     ]
   }
   async create(negocioId,data){
+    // verificar que el s no exista
+    // agregarle id
+    // agregar producto
+    // retornar product
+    if(await Service.exits(negocioId)===true){
 
-  const Newproducto ={
-        id: Generador.NewCodProd(this.productos),
-        NegocioId: negocioId,
-        ...data
-    }
-    const negocio = Service.findOne(negocioId);
-    this.productos.push(Newproducto);
-    return Newproducto;
+    }else{ throw boom.notFound('negocio not found');}
+    return true;
   }
-   find(negocioId){
+   async find(negocioId){
+    if(await Service.exits(negocioId)===true){
 
-    if(!Service.findOne(negocioId)){
       return new Promise((resolve, reject)=>{
       setTimeout(() => {
         resolve(this.productos.filter(item => item.negocioId === negocioId));

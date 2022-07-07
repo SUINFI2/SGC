@@ -1,8 +1,8 @@
 class DepositosService {
-  async create(data){}
-  async find(){}
-  async findOne(){}
-  async update(id,changes){}
-  async delete(){}
+  async create(negocioId,data){}
+  async find(negocioId){}
+  async findOne(negocioId,depositoId){}
+  async update(negocioId,depositoId,changes){}
+  async delete(negocioId,depositoId){}
 }
 module.exports = DepositosService;

@@ -1,8 +1,8 @@
 class ProveedoresService {
-  async create(data){}
-  async find(){}
-  async findOne(){}
-  async update(id,changes){}
-  async delete(){}
+  async create(negocioId,data){}
+  async find(negocioId){}
+  async findOne(negocioId,proveedorId){}
+  async update(negocioId,proveedorId,changes){}
+  async delete(negocioId,proveedorId){}
 }
 module.exports = ProveedoresService;

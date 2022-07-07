@@ -1,15 +1,15 @@
 const express=require('express');
 const router=express.Router();
-const ProductoService = require('../services/productos.service');
-const {createProductoSchema,
-  updateProductoSchema,
-  getProductoSchema,
-  getNegocioSchema} = require('../schemas/producto.schema');
+const productosService = require('../services/productos.service');
+const {createproductoSchema,
+  updateproductoSchema,
+  getproductoSchema} = require('../schemas/producto.schema');
+const {getnegocioSchema} = require('../schemas/negocio.schema');
 const validatorHandler = require('../middlewares/validator.handler');
-const service = new ProductoService();
+const service = new productosService();
 
 router.get('/:negocioId',
-validatorHandler(getNegocioSchema,'params'),
+validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
   try{
     const {negocioId} = req.params;
@@ -20,7 +20,7 @@ async (req,res,next)=>{
   }
 });
 router.get('/:negocioId/:productoId',
-validatorHandler(getProductoSchema, 'params'),
+validatorHandler(getproductoSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,productoId}=req.params;
@@ -30,12 +30,9 @@ async (req,res,next)=>{
     next(err);
   }
 });
-
-
-
 router.post('/:negocioId',
-validatorHandler(getNegocioSchema,'params'),
-validatorHandler(createProductoSchema,'body'),
+validatorHandler(getnegocioSchema,'params'),
+validatorHandler(createproductoSchema,'body'),
 async (req, res) => {
   const {negocioId} = req.params;
   const body = req.body;
@@ -46,8 +43,8 @@ async (req, res) => {
   });
 });
 router.patch('/:negocioId/:productoId',
-validatorHandler(getProductoSchema,'params'),
-validatorHandler(updateProductoSchema,'body'),
+validatorHandler(getproductoSchema,'params'),
+validatorHandler(updateproductoSchema,'body'),
 async (req, res,next) => {
   try{
     const { negocioId,productoId } = req.params;
@@ -61,7 +58,7 @@ async (req, res,next) => {
 });
 
 router.delete('/:negocioId/:productoId',
-  validatorHandler(getProductoSchema,'params'),
+  validatorHandler(getproductoSchema,'params'),
   async(req, res,next) => {
   try{
     const { negocioId,productoId } = req.params;

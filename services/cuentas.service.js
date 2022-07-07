@@ -1,8 +1,8 @@
 class CuentasService {
-  async create(data){}
-  async find(){}
-  async findOne(){}
-  async update(id,changes){}
-  async delete(){}
+  async create(negocioId,data){}
+  async find(negocioId){}
+  async findOne(negocioId,cuentaId){}
+  async update(negocioId,cuentaId,changes){}
+  async delete(negocioId,cuentaId){}
 }
 module.exports = CuentasService;

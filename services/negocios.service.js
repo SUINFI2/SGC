@@ -17,5 +17,10 @@ class NegociosService {
   }
   async update(id,changes){}
   async delete(){}
+  async exits(negocioId){
+    if(-1===await this.negocios.findIndex(item => item.id===negocioId)){
+      return false;
+    }else{return true;}
+  }
 }
 module.exports = NegociosService;
