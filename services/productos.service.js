@@ -1,4 +1,5 @@
 const  Generador = require('../modules/Generador');
+const getConnection = require('../libs/postgres');
 const boom = require('@hapi/boom');
 const NegeociosService = require('./negocios.service');
 const Service = new NegeociosService();
@@ -27,16 +28,10 @@ class ProductoService{
     return true;
   }
    async find(negocioId){
-    if(await Service.exits(negocioId)===true){
-
-      return new Promise((resolve, reject)=>{
-      setTimeout(() => {
-        resolve(this.productos.filter(item => item.negocioId === negocioId));
-
-
-      }, 1200);
-      });}else{ throw boom.notFound('negocio not found');}
-  }
+      const client = await getConnection();
+      const rta = await client.query('SELECT * FROM tasks');
+      return rta.rows;
+    }
   async findOne(negocioId,productoId){
 
     var producto;
