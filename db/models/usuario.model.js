@@ -22,7 +22,7 @@ const usuarioSchema  = {
     field: 'create_at',
     defaultValue: Sequelize.NOW
   }
-};
+}
 
 class Usuario extends Model{
   // crear metodos estaticos

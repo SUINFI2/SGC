@@ -1,14 +1,14 @@
-const pool = require('../libs/postgres.pool');
+const {models} = require('../libs/sequelize');
+
 class UsuariosService {
   constructor(){
-    this.pool = pool;
-    this.pool.on('error',(err)=> console.log('err'));
+
   }
   async create(negocioId,data){}
   async find(negocioId){
-    const query = 'SELECT * FROM tasks';
-    const rta = await this.pool.query(query);
-  return rta.rows;
+    const cliente  = await models.Usuario.findAll();
+
+  return cliente;
   }
   async findOne(negocioId,usuarioId){}
   async update(negocioId,usuarioId,changes){}
