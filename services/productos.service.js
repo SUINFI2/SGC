@@ -1,8 +1,9 @@
 const  Generador = require('../modules/Generador');
-const getConnection = require('../libs/postgres');
+const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const NegeociosService = require('./negocios.service');
 const Service = new NegeociosService();
+
 class ProductoService{
 
   constructor(){
@@ -28,22 +29,14 @@ class ProductoService{
     return true;
   }
    async find(negocioId){
-      const client = await getConnection();
-      const rta = await client.query('SELECT * FROM tasks');
-      return rta.rows;
+     const query = 'SELECT * FROM tasks'
+      const [data, metadata] = await sequelize.query(query);
+      return {
+        data,
+        metadata
+      };
     }
   async findOne(negocioId,productoId){
-
-    var producto;
-    await this.find(negocioId)
-    .then(data => {
-
-    producto =   data.find(item => item.id === productoId);
-      if(!producto)
-      {throw boom.notFound('Product not found');}
-
-    } );
-    return producto;
   }
   async update(negocioId,productoId, change){
     var index;
