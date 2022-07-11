@@ -14,7 +14,12 @@ const sequelize = new Sequelize(URI,{
   logging: true
 });
 //(( le envia la conexion))
+/*sequelize.createSchema('cliente2',{
+  logging: true
+}) */
 setupModels(sequelize);
-sequelize.sync();
+//sequelize.sync(); borrar para realizar las migraciones correctamente
+
+
 
 module.exports = sequelize;

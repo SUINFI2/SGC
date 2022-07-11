@@ -2,7 +2,7 @@ const express = require('express');
 const routerApi = require('./routes/index');
 const cors = require('cors');
 const app = express();
-const {longError,errorHandler,BoomErrorHandler}= require('./middlewares/error.handler');
+const {longError,errorHandler,BoomErrorHandler,ormErrorHandler}= require('./middlewares/error.handler');
 const port = 3000;
 // para poder manejar datos tipo json
 app.use(express.json());
@@ -24,6 +24,7 @@ app.use(cors()); // si lo hacemos asi, habilitamos a cualquier dominio
 routerApi(app);
 
 app.use(longError);
+app.use(ormErrorHandler);
 app.use(BoomErrorHandler);
 app.use(errorHandler);
 

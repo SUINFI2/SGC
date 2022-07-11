@@ -16,6 +16,11 @@ const usuarioSchema  = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  role:{
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: "customer"
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
