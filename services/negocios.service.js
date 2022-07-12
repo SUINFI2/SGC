@@ -1,26 +1,31 @@
 const { boom } = require("@hapi/boom");
+const {models} = require('../libs/sequelize');
 
 class NegociosService {
-  constructor(){
-    this.negocios = [
-    {id: 'a1', nombre:"ng1"},
-    {id: 'a2', nombre:"ng2"},
-    {id: 'a3', nombre:"ng3"}
-    ];
+
+  async create(data){
+    const rta = await models.Negocio.create(data);
+    return rta;
   }
-  async create(data){}
-  async find(){}
+  async find(){
+    const rta = await models.Negocio.findAll({include:['categorias','productos']});
+    return rta;
+  }
   async findOne(id){
-    const negocio = await this.negocios.find(item => item.id===id);
-    if(!negocio){ return false; }
-    return negocio;
+    const rta = await models.Negocio.findByPk(id);
+   if(!rta){throw boom.notFound('Negocio Not Found');}
+    return rta;
   }
-  async update(id,changes){}
-  async delete(){}
-  async exits(negocioId){
-    if(-1===await this.negocios.findIndex(item => item.id===negocioId)){
-      return false;
-    }else{return true;}
+  async update(id,changes){
+    const newNegocio = await this.findOne(id);
+    const rta = await newNegocio.update(changes);
+    return rta;
   }
+  async delete(id){
+    const newNegocio = await this.findOne(id);
+    const rta = await newNegocio.destroy();
+    return rta;
+  }
+
 }
 module.exports = NegociosService;

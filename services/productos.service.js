@@ -1,68 +1,38 @@
-const  Generador = require('../modules/Generador');
-const sequelize = require('../libs/sequelize');
+
+const {models} = require('../libs/sequelize');
 const boom = require('@hapi/boom');
-const NegeociosService = require('./negocios.service');
-const Service = new NegeociosService();
 
 class ProductoService{
+  async create(data){
 
-  constructor(){
-    this.productos=[];
-    this.generate();
-  }
-  generate(){
-    this.productos = [
-      {id:'1', nombre:"prd1", price: 100, negocioId: "a1"},
-      {id:'11', nombre:"prd2", price: 300, negocioId: "a1"},
-      {id:'2', nombre:"prd2", price: 200, negocioId: "a2"},
-      {id:'3', nombre:"prd3", price: 300, negocioId: "a3"}
-    ]
-  }
-  async create(negocioId,data){
-    // verificar que el s no exista
-    // agregarle id
-    // agregar producto
-    // retornar product
-    if(await Service.exits(negocioId)===true){
+    // antes debo verificar que la categoria corresponda al negocio.
 
-    }else{ throw boom.notFound('negocio not found');}
-    return true;
+    const neg = await models.Negocio.findByPk(data.negocioId,{include:['categorias']});
+    const rta = await neg.categorias.find(item => item.id === data.categoriaId);
+    if(!rta){throw boom.notFound('Categoria Not Found');}
+    const newproducto = await models.Producto.create(data);
+    return newproducto;
   }
-   async find(negocioId){
-     const query = 'SELECT * FROM tasks'
-      const [data, metadata] = await sequelize.query(query);
-      return {
-        data,
-        metadata
-      };
+   async find(id){
+      const negocio  = await models.Negocio.findByPk(id,{include:['productos']});
+      if(!negocio){ throw boom.notFound('Negocio Not Found');}
+      return negocio.productos;
     }
   async findOne(negocioId,productoId){
+    const productos  = await this.find(negocioId);
+    const producto = await productos.find((items) => items.id == productoId);
+    if(!producto){ throw boom.notFound('Producto Not Found');}
+     return producto;
   }
   async update(negocioId,productoId, change){
-    var index;
-    await this.find(negocioId)
-    .then(data => {
-      index =   data.findIndex(item => item.id === productoId);
-      if(index===-1)
-      {throw boom.notFound('Product not found');}
-      const producto = this.productos[index];
-      this.productos[index] = {
-      ...producto,
-      ...change
-        }
-    } );
-    return this.productos[index] ;
+   const producto = await this.findOne(negocioId,productoId);
+   const rta = await producto.update(change);
+   return rta;
   }
   async delete(negocioId,productoId){
-    var index;
-    await this.find(negocioId)
-    .then(data => {
-      index =   data.findIndex(item => item.id === productoId);
-      if(index===-1)
-      {throw boom.notFound('Product not found');}
-      this.productos.splice(index,1);
-    } );
-    return {productoId};
+    const producto = await this.findOne(negocioId,productoId);
+    const rta = await producto.destroy();
+    return rta;
   }
 }
 module.exports = ProductoService;

@@ -8,6 +8,15 @@ const {
 
 const negociosService = require('../services/negocios.service');
 const service = new negociosService();
+router.get('/',
+async (req,res,next)=>{
+  try{
+    const negocio=await service.find();
+    res.json(negocio);
+  }catch(err){
+    next(err);
+  }
+});
 
 router.get('/:negocioId',
 validatorHandler(getnegocioSchema,'params'),

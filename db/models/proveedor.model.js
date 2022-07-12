@@ -1,8 +1,7 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
-const {ROLE_TABLE}=require('../models/role.model');
-const USER_TABLE = 'usuarios';
-const usuarioSchema  = {
+const PROVEEDOR_TABLE = 'proveedores';
+const proveedorSchema  = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -36,23 +35,6 @@ const usuarioSchema  = {
   email: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  roleId:{
-    field: 'role_id',
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    references: {
-      model: ROLE_TABLE,
-      key: 'id'
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
-
   },
   createdAt: {
     allowNull: false,
@@ -62,33 +44,24 @@ const usuarioSchema  = {
   }
 }
 
-class Usuario extends Model{
+class Proveedor extends Model{
   // crear metodos estaticos
   static associate(models){
-    // aqui quedara la parte donde trabajaremos todas laas relaciones
-    /*this.hasOne(models.Negocio|, {
-      as: 'customer',
-      foreignKey: 'userId'
-    });
-    usuario -> empresa 1:1
-    usaurio -> role 1:1
+    this.belongsTo(models.Negocio, {as: 'negocio'});
 
-    */
-    this.belongsTo(models.Negocio, {as: 'negocio'});
-    this.belongsTo(models.Negocio, {as: 'negocio'});
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'Usuario',
+      tableName:  PROVEEDOR_TABLE,
+      modelName: 'Proveedor',
       timestamps: false
     }
   }
 }
 module.exports = {
-  USER_TABLE,
-  usuarioSchema,
-  Usuario
+  PROVEEDOR_TABLE,
+  proveedorSchema,
+  Proveedor
 }

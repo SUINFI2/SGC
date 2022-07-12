@@ -1,21 +1,29 @@
 const joi = require('joi');
 const id = joi.string();
 const nombre = joi.string().min(3);
-const precio =  joi.number().positive();
-const createpreoveedorSchema = joi.object({
+const celular = joi.string().min(3);
+const direccion = joi.string().min(3);
+const email = joi.string().min(3);
+const createproveedorSchema = joi.object({
   negocioId: id.required(),
-  nombre: nombre.required()
+  nombre: nombre.required(),
+  celular: celular.required(),
+  direccion: direccion.required(),
+  email: email.required()
 });
-const updatepreoveedorSchema = joi.object({
-  nombre
+const updateproveedorSchema = joi.object({
+  nombre,
+  celular,
+  direccion,
+  email
 });
-const getpreoveedorSchema = joi.object({
+const getproveedorSchema = joi.object({
   negocioId: id.required(),
-  preoveedorId: id.required()
+  proveedorId: id.required()
 });
 
 module.exports = {
-  createpreoveedorSchema,
-  updatepreoveedorSchema,
-  getpreoveedorSchema
+  createproveedorSchema,
+  updateproveedorSchema,
+  getproveedorSchema
   };

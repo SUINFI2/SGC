@@ -7,9 +7,12 @@ class UsuariosService {
   }
   async create(negocioId,data){
     const newUser = await models.Usuario.create(data);
+    return newUser;
   }
   async find(negocioId){
-    const cliente  = await models.Usuario.findAll();
+    const cliente  = await models.Usuario.findAll({
+      include: ['customer']
+    });
     return cliente;
   }
   async findOne(negocioId,usuarioId){

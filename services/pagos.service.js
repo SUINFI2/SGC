@@ -1,3 +1,5 @@
+const {models} = require('../libs/sequelize');
+const boom = require('@hapi/boom');
 class PagosService {
   async create(negocioId,data){}
   async find(negocioId){}

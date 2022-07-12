@@ -9,7 +9,10 @@ const CategoriasService = require('../services/categorias.service');
 const service = new CategoriasService();
 
 const {getnegocioSchema}  = require('../schemas/negocio.schema');
+
 const validatorHandler = require('../middlewares/validator.handler');
+
+
 router.get('/:negocioId',
 validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
@@ -21,37 +24,35 @@ async (req,res,next)=>{
     next(err);
   }
 });
-router.get('/:negocioId/:categoriaId',
+router.get('/:negocioId/:id',
 validatorHandler(getcategoriaSchema, 'params'),
 async (req,res,next)=>{
   try{
-    const{negocioId,categoriaId}=req.params;
-  const categoria = await service.findOne(negocioId,categoriaId);
+    const{negocioId,id}=req.params;
+  const categoria = await service.findOne(negocioId,id);
   res.json(categoria);
   }catch(err){
     next(err);
   }
 });
-router.post('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
+router.post('/',
 validatorHandler(createcategoriaSchema,'body'),
-async (req, res) => {
-  const {negocioId} = req.params;
-  const body = req.body;
-  const Newcategoria = await service.create(negocioId,body);
+async (req, res,next) => {
+ try{ const body = req.body;
+  const Newcategoria = await service.create(body);
   res.json({
     message: 'created',
     data: Newcategoria
-  });
+  });}catch(err){next(err);}
 });
-router.patch('/:negocioId/:categoriaId',
+router.patch('/:negocioId/:id',
 validatorHandler(getcategoriaSchema,'params'),
 validatorHandler(updatecategoriaSchema,'body'),
 async (req, res,next) => {
   try{
-    const { negocioId,categoriaId } = req.params;
+    const { negocioId,id } = req.params;
     const body = req.body;
-    const prodUpdate = await service.update(negocioId,categoriaId,body);
+    const prodUpdate = await service.update(negocioId,id,body);
     res.json(prodUpdate);
   }
   catch(err){
@@ -59,12 +60,12 @@ async (req, res,next) => {
   }
 });
 
-router.delete('/:negocioId/:categoriaId',
+router.delete('/:negocioId/:id',
   validatorHandler(getcategoriaSchema,'params'),
   async(req, res,next) => {
   try{
-    const { negocioId,categoriaId } = req.params;
-  const delProd = await service.delete(negocioId,categoriaId);
+    const { negocioId,id } = req.params;
+  const delProd = await service.delete(negocioId,id);
   res.json(delProd);
   }catch(err){
     next(err);
