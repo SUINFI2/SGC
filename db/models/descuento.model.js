@@ -1,7 +1,7 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
-const CATEGORIA_TABLE = 'categorias';
-const categoriaSchema  = {
+const DESCUENTO_TABLE = 'descuentos';
+const descuentoSchema  = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -24,6 +24,16 @@ const categoriaSchema  = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  cntRequerida: {
+    field: 'cnt_requerida',
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+  },
+  prcDescuento: {
+    field: 'prc_descuento',
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -32,24 +42,23 @@ const categoriaSchema  = {
   }
 }
 
-class Categoria extends Model{
+class Descuento extends Model{
   // crear metodos estaticos
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
-    this.hasMany(models.Producto , { as: 'productos', foreignKey: 'categoriaId'});
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {
       sequelize,
-      tableName:  CATEGORIA_TABLE,
-      modelName: 'Categoria',
+      tableName:  DESCUENTO_TABLE,
+      modelName: 'Descuento',
       timestamps: false
     }
   }
 }
 module.exports = {
-  CATEGORIA_TABLE,
-  categoriaSchema,
-  Categoria
+  DESCUENTO_TABLE,
+  descuentoSchema,
+  Descuento
 }

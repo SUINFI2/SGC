@@ -1,7 +1,7 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
-const CATEGORIA_TABLE = 'categorias';
-const categoriaSchema  = {
+const CUENTA_TABLE = 'cuentas';
+const cuentaSchema  = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -24,6 +24,16 @@ const categoriaSchema  = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  debe: {
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+    defaultValue: 0
+  },
+  haber: {
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+    defaultValue: 0
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -32,24 +42,37 @@ const categoriaSchema  = {
   }
 }
 
-class Categoria extends Model{
+class Cuenta extends Model{
   // crear metodos estaticos
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
-    this.hasMany(models.Producto , { as: 'productos', foreignKey: 'categoriaId'});
+    this.hasOne(models.Cliente, {
+      as: 'cliente',
+      foreignKey: 'cuentaId'
+    });
+    this.hasOne(models.Proveedor, {
+      as: 'proveedor',
+      foreignKey: 'cuentaId'
+    });
+    this.hasOne(models.Usuario, {
+      as: 'usuario',
+      foreignKey: 'cuentaId'
+    });
+    this.hasMany(models.Pago, {as: 'pagos', foreignKey: 'cuentaId'});
+
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {
       sequelize,
-      tableName:  CATEGORIA_TABLE,
-      modelName: 'Categoria',
+      tableName:  CUENTA_TABLE,
+      modelName: 'Cuenta',
       timestamps: false
     }
   }
 }
 module.exports = {
-  CATEGORIA_TABLE,
-  categoriaSchema,
-  Categoria
+  CUENTA_TABLE,
+  cuentaSchema,
+  Cuenta
 }

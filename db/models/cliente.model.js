@@ -1,5 +1,6 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
+const {CUENTA_TABLE}=require('../models/cuenta.model');
 const CLIENTE_TABLE = 'clientes';
 const clienteSchema  = {
   id: {
@@ -14,6 +15,19 @@ const clienteSchema  = {
     type: DataTypes.INTEGER,
     references: {
       model: NEGOCIO_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+
+  },
+  cuentaId:{
+    field: 'cuenta_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    unique: true,
+    references: {
+      model: CUENTA_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -48,6 +62,7 @@ class Cliente extends Model{
   // crear metodos estaticos
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
+    this.belongsTo(models.Cuenta, {as: 'cuenta'});
 
   }
   // definir otrto estatico para la conexin

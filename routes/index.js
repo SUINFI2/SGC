@@ -8,7 +8,7 @@ const cuentasRouter = require('./cuentas.router');
 const gastosRouter = require('./gastos.router');
 //const impresorasRouter = require('./impresoras.router');
 const pagosRouter = require('./pagos.router');
-
+const depositoRouter = require('./depositos.router');
 const productosRouter = require('./productos.router.js');
 const negociosRouter = require('./negocios.router');
 
@@ -28,6 +28,7 @@ function routerApi(app) {
  router.use('/cobros', cobrosRouter);
  router.use('/compras', comprasRouter);
  router.use('/cuentas', cuentasRouter);
+ router.use('/depositos', depositoRouter);
  router.use('/gastos', gastosRouter);
  //router.use('/impresoras', impresorasRouter);
  router.use('/pagos', pagosRouter);

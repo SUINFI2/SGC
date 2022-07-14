@@ -8,11 +8,11 @@ class NegociosService {
     return rta;
   }
   async find(){
-    const rta = await models.Negocio.findAll({include:['categorias','productos']});
+    const rta = await models.Negocio.findAll({include:['categorias','productos','usuarios','clientes','proveedores']});
     return rta;
   }
   async findOne(id){
-    const rta = await models.Negocio.findByPk(id);
+    const rta = await models.Negocio.findByPk(id,{include:['categorias','productos','usuarios','clientes','proveedores']});
    if(!rta){throw boom.notFound('Negocio Not Found');}
     return rta;
   }

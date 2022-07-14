@@ -1,22 +1,23 @@
 const joi = require('joi');
-const id = joi.string();
+const descuentoId = joi.number().positive();
+const negocioId = joi.number().positive();
 const nombre = joi.string().min(3);
-const precio =  joi.number().positive();
-const cantidad =  joi.number().positive();
+const cntRequerida =  joi.number().positive();
+const prcDescuento =  joi.number().positive();
 const createdescuentoSchema = joi.object({
-  negocioId: id.required(),
+  negocioId: negocioId.required(),
   nombre: nombre.required(),
-  cantidad : cantidad.required(),
-  precio: precio.required()
+  cntRequerida : cntRequerida.required(),
+  prcDescuento: prcDescuento.required()
 });
 const updatedescuentoSchema = joi.object({
   nombre,
-  cantidad,
-  precio
+  cntRequerida,
+  prcDescuento
 });
 const getdescuentoSchema = joi.object({
-  negocioId: id.required(),
-  descuentoId: id.required()
+  negocioId: negocioId.required(),
+  descuentoId: descuentoId.required()
 });
 
 module.exports = {

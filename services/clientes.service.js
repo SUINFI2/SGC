@@ -2,7 +2,7 @@ const {models} = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 class ClientesService {
   async create(data){
-    const dat = await models.Cliente.create(data);
+    const dat = await models.Cliente.create(data,{include: ['cuenta']});
     return dat;
   }
    async find(id){
