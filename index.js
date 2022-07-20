@@ -3,7 +3,7 @@ const routerApi = require('./routes/index');
 const cors = require('cors');
 const app = express();
 const {longError,errorHandler,BoomErrorHandler,ormErrorHandler}= require('./middlewares/error.handler');
-const port = procces.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 // para poder manejar datos tipo json
 app.use(express.json());
 
