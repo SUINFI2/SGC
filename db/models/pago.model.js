@@ -1,5 +1,7 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
+const {COMPRA_TABLE}=require('../models/compra.model');
+const {PROVEEDOR_TABLE}=require('../models/proveedor.model');
 const {CUENTA_TABLE}=require('../models/cuenta.model');
 const PAGO_TABLE = 'pagos';
 const pagoSchema  = {
@@ -21,12 +23,12 @@ const pagoSchema  = {
     onDelete: 'SET NULL'
 
   },
-  proveedorId:{
-    field: 'cuenta_id_debe',
+  compraId:{
+    field: 'compra_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: CUENTA_TABLE,
+      model: COMPRA_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -34,7 +36,7 @@ const pagoSchema  = {
 
   },
   cuentaId:{
-    field: 'cuenta_id_haber',
+    field: 'cuenta_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
@@ -60,9 +62,9 @@ const pagoSchema  = {
 class Pago extends Model{
   // crear metodos estaticos
   static associate(models){
-    this.belongsTo(models.Negocio, {as: 'negocio'});
+   this.belongsTo(models.Negocio, {as: 'negocio'});
    this.belongsTo(models.Cuenta, {as: 'cuenta'});
-   this.belongsTo(models.Proveedor, {as: 'proveedor'});
+   this.belongsTo(models.Compra, {as: 'compra'});
   }
   // definir otrto estatico para la conexin
   static config(sequelize){

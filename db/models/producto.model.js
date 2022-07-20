@@ -37,9 +37,13 @@ const productoSchema  = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  codigo: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   imagen: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   descripcion: {
     type: DataTypes.TEXT,

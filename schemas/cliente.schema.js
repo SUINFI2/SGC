@@ -5,12 +5,14 @@ const nombre = joi.string().min(3);
 const celular = joi.string().min(3);
 const direccion = joi.string().min(3);
 const email = joi.string().min(3);
+const imagen = joi.string().uri();
 const createclienteSchema = joi.object({
   negocioId: negocioId.required(),
   nombre: nombre.required(),
   celular: celular.required(),
   direccion: direccion.required(),
   email: email.required(),
+  imagen: imagen,
   cuenta: joi.object({
     negocioId: negocioId.required(),
     nombre: nombre.required()
@@ -19,6 +21,7 @@ const createclienteSchema = joi.object({
 const updateclienteSchema = joi.object({
   nombre,
   celular,
+  imagen,
   direccion,
   email
 

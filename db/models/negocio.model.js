@@ -22,6 +22,10 @@ const negocioSchema  = {
     type: DataTypes.STRING,
 
   },
+  imagen: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -42,6 +46,9 @@ class Negocio extends Model{
     this.hasMany(models.Deposito, {as: 'depositos', foreignKey: 'negocioId'});
     this.hasMany(models.Descuento, {as: 'descuentos', foreignKey: 'negocioId'});
     this.hasMany(models.Pago, {as: 'pagos', foreignKey: 'negocioId'});
+    this.hasMany(models.Compra, {as: 'compras', foreignKey: 'negocioId'});
+    this.hasMany(models.Venta, {as: 'ventas', foreignKey: 'negocioId'});
+    this.hasMany(models.Cobro, {as: 'cobros', foreignKey: 'negocioId'});
   }
   // definir otrto estatico para la conexin
   static config(sequelize){

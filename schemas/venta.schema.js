@@ -1,24 +1,60 @@
-const joi = require('joi');
-const id = joi.string();
-const nombre = joi.string().min(3);
-const precio =  joi.number().positive();
+ const joi = require('joi');
+const ventaId = joi.number().positive();
+const negocioId = joi.number().positive();
+const clienteId = joi.number().positive();
+const productoId = joi.number().integer();
+const usuarioId = joi.number().positive();
+const fechaEntrega =  joi.date();
+const cantidad = joi.number().positive();
+const precio = joi.number().positive();
+const confirmDeposito = joi.boolean();
+const confirmCobro = joi.boolean();
+const fecha = joi.date();
+const limit = joi.number().integer();
+const offset = joi.number().integer();
 const createventaSchema = joi.object({
-  negocioId: id.required(),
-  depositoId: id.required(),
-  clienteId: id.required(),
-  usuarioId: id.required(),
-  //compra-Productos
+  negocioId: negocioId.required(),
+  clienteId: clienteId.required(),
+  usuarioId: usuarioId.required(),
+  fechaEntrega: fechaEntrega
 });
 const updateventaSchema = joi.object({
- //--
+  fechaEntrega,
+  confirmDeposito,
+  confirmCobro
 });
 const getventaSchema = joi.object({
-  negocioId: id.required(),
-  ventaId: id.required()
+  negocioId: negocioId.required(),
+  ventaId: ventaId.required()
+});
+
+const addItemSchema = joi.object({
+  ventaId: ventaId.required(),
+  productoId: productoId.required(),
+  cantidad: cantidad.required(),
+  precio: precio.required()
+
+});
+const substractItemSchema = joi.object({
+  ventaId: ventaId.required(),
+  productoId: productoId.required()
+});
+const queryCompraSchema = joi.object({
+  limit,
+  offset,
+  fecha,
+  confirmDeposito,
+  confirmCobro: confirmCobro.when('confirm_deposito',{
+    is: true,
+    then: joi.required()
+  })
 });
 
 module.exports = {
   createventaSchema,
   updateventaSchema,
-  getventaSchema
+  getventaSchema,
+  addItemSchema,
+  queryCompraSchema,
+  substractItemSchema
   };

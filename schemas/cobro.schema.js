@@ -1,20 +1,23 @@
 const joi = require('joi');
-const id = joi.string();
-const nombre = joi.string().min(3);
-const importe =  joi.number().positive();
+const negocioId = joi.number().integer();
+const ventaId = joi.number().integer();
+const clienteId = joi.number().integer();
+const cobroId = joi.number().integer();
+const cuentaId = joi.number().integer();
+const monto =  joi.number().positive();
 const createcobroSchema = joi.object({
-  negocioId: id.required(),
-  usuarioId: id.required(),
-  clienteId: id.required(),
-  cuentaId: id.required(),
-  monto: importe.required()
+  negocioId: negocioId.required(),
+  ventaId: ventaId.required(),
+  clienteId: clienteId.required(),
+  cuentaId: cuentaId.required(),
+  monto: monto.required()
 });
 const updatecobroSchema = joi.object({
-  id,
+  monto,
 });
 const getcobroSchema = joi.object({
-  negocioId: id.required(),
-  cobroId: id.required()
+  negocioId: negocioId.required(),
+  cobroId: cobroId.required()
 });
 
 module.exports = {

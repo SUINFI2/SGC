@@ -1,19 +1,19 @@
 const joi = require('joi');
-const pagoId = joi.number().positive();
-const negocioId = joi.number().positive();
-const proveedorId = joi.number().positive();
-const monto = joi.number().positive();
-const cuentaId = joi.number().positive();
+const pagoId = joi.number().integer();
+const compraId = joi.number().integer();
+const negocioId = joi.number().integer();
+const proveedorId = joi.number().integer();
+const monto = joi.number().integer();
+const cuentaId = joi.number().integer();
 
 const createpagoSchema = joi.object({
   negocioId: negocioId.required(),
+  compraId: compraId.required(),
   proveedorId: proveedorId.required(),
   cuentaId: cuentaId.required(),
   monto: monto.required()
 });
 const updatepagoSchema = joi.object({
-  proveedorId,
-  cuentaId,
   monto
 });
 const getpagoSchema = joi.object({

@@ -40,6 +40,12 @@ class Deposito extends Model{
   // crear metodos estaticos
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
+    this.belongsToMany(models.Producto, {
+      as: 'items',
+      through: models.DepositoProducto,
+      foreignKey: 'depositoId',
+      otherKey: 'productoId'
+    });
   }
   // definir otrto estatico para la conexin
   static config(sequelize){

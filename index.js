@@ -10,15 +10,15 @@ app.use(express.json());
 const whitelist = ['http://localhost:3000','http://myapp.com'];
 const options = {
   origin: (origin,callback)=>{
-    if(whitelist.includes(origin)){
+    if(whitelist.includes(origin) || !origin){
       callback(null,true);
     }else{
       callback(new Error('acceso no permitido'));
     }
   }
 }
-//app.use(cors(options));
-app.use(cors()); // si lo hacemos asi, habilitamos a cualquier dominio
+app.use(cors(options));
+//app.use(cors()); // si lo hacemos asi, habilitamos a cualquier dominio
 
 
 routerApi(app);

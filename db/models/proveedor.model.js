@@ -50,6 +50,10 @@ const proveedorSchema  = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  imagen: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -63,7 +67,8 @@ class Proveedor extends Model{
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
     this.belongsTo(models.Cuenta, {as: 'cuenta'});
-    this.hasMany(models.Pago, {as: 'pagos', foreignKey: 'proveedorId'});
+    this.hasMany(models.Compra, {as: 'compras', foreignKey: 'proveedorId'});
+
   }
   // definir otrto estatico para la conexin
   static config(sequelize){

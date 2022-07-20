@@ -1,5 +1,6 @@
 
 const {models} = require('../libs/sequelize');
+const {Op}=require('sequelize');
 const boom = require('@hapi/boom');
 
 class ProductoService{
@@ -13,8 +14,26 @@ class ProductoService{
     const newproducto = await models.Producto.create(data);
     return newproducto;
   }
-   async find(id){
-      const negocio  = await models.Negocio.findByPk(id,{include:['productos']});
+   async find(id,query){
+    const options= {
+      association: 'productos',
+      where:{}
+    };
+    const {limit,offset} = query;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const {costo} = query;
+    if(costo){ options.where.costo= costo;}
+    const {costo_min,costo_max} = query;
+    if(costo_min && costo_max){
+      options.where.costo= {
+        [Op.gte]: costo_min,
+        [Op.lte]: costo_max
+      };
+    }
+      const negocio  = await models.Negocio.findByPk(id,{include:[options]});
       if(!negocio){ throw boom.notFound('Negocio Not Found');}
       return negocio.productos;
     }

@@ -59,6 +59,7 @@ class Cuenta extends Model{
       foreignKey: 'cuentaId'
     });
     this.hasMany(models.Pago, {as: 'pagos', foreignKey: 'cuentaId'});
+    this.hasMany(models.Cobro, {as: 'cobros', foreignKey: 'cuentaId'});
 
   }
   // definir otrto estatico para la conexin

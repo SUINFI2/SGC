@@ -27,6 +27,7 @@ function routerApi(app) {
  router.use('/clientes', clientesRouter);
  router.use('/cobros', cobrosRouter);
  router.use('/compras', comprasRouter);
+ router.use('/ventas', ventasRouter);
  router.use('/cuentas', cuentasRouter);
  router.use('/depositos', depositoRouter);
  router.use('/gastos', gastosRouter);
@@ -35,6 +36,5 @@ function routerApi(app) {
  router.use('/proveedores', proveedoresRouter);
  router.use('/roles', rolesRouter);
  router.use('/usuarios', usuariosRouter);
- router.use('/ventas', ventasRouter);
 }
 module.exports = routerApi;

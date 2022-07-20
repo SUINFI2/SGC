@@ -5,17 +5,22 @@ const service = new ComprasService();
 const  {
   createcompraSchema,
   updatecompraSchema,
-  getcompraSchema
+  getcompraSchema,
+  addItemSchema,
+  queryCompraSchema,
+  subractItemSchema
   } = require('../schemas/compra.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
   const validatorHandler = require('../middlewares/validator.handler');
+
   router.get('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
+  validatorHandler(queryCompraSchema,'query'),
+  validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
   try{
     const {negocioId} = req.params;
-    const compras=await service.find(negocioId);
+    const compras=await service.find(negocioId,req.query);
     res.json(compras);
   }catch(err){
     next(err);
@@ -32,18 +37,44 @@ async (req,res,next)=>{
     next(err);
   }
 });
-router.post('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
+router.post('/',
 validatorHandler(createcompraSchema,'body'),
 async (req, res) => {
-  const {negocioId} = req.params;
   const body = req.body;
-  const Newcompra = await service.create(negocioId,body);
+  const Newcompra = await service.create(body);
   res.json({
     message: 'created',
     data: Newcompra
   });
 });
+
+router.post('/add-item',
+validatorHandler(addItemSchema,'body'),
+async (req, res) => {
+  const body = req.body;
+  const Newcompra = await service.addItem(body);
+  res.json({
+    message: 'created',
+    data: Newcompra
+  });
+});
+
+router.delete('/subtract-items/:compraId/:productoId',
+validatorHandler(subractItemSchema,'params'),
+async (req, res) => {
+  const body = req.body;
+  const Newcompra = await service.subtractItems(req.params);
+  res.json({
+    message: 'created',
+    data: Newcompra
+  });
+});
+
+
+
+
+
+
 router.patch('/:negocioId/:compraId',
 validatorHandler(getcompraSchema,'params'),
 validatorHandler(updatecompraSchema,'body'),

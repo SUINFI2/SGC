@@ -1,6 +1,8 @@
 'use strict';
 const {CATEGORIA_TABLE,categoriaSchema}=require('../models/categoria.model');
 const {CUENTA_TABLE,cuentaSchema}=require('../models/cuenta.model');
+const {COMPRA_TABLE,compraSchema}=require('../models/compra.model');
+const {COMPRA_PRODUCTO_TABLE,compraProductoSchema}=require('../models/compra-producto.model');
 const {DESCUENTO_TABLE,descuentoSchema}=require('../models/descuento.model');
 const {NEGOCIO_TABLE, negocioSchema}=require('../models/negocio.model');
 const {PRODUCTO_TABLE,productoSchema}=require('../models/producto.model');
@@ -9,6 +11,9 @@ const {CLIENTE_TABLE,clienteSchema}=require('../models/cliente.model');
 const {PROVEEDOR_TABLE,proveedorSchema}=require('../models/proveedor.model');
 const {DEPOSITO_TABLE,depositoSchema}=require('../models/deposito.model');
 const {PAGO_TABLE,pagoSchema}=require('../models/pago.model');
+const {COBRO_TABLE,cobroSchema}=require('../models/cobro.model');
+const {VENTA_TABLE,ventaSchema}=require('../models/venta.model');
+const {VENTA_PRODUCTO_TABLE,ventaProductoSchema}=require('../models/venta-producto');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(NEGOCIO_TABLE,negocioSchema);
@@ -20,11 +25,22 @@ module.exports = {
     await queryInterface.createTable(CLIENTE_TABLE,clienteSchema);
     await queryInterface.createTable(PROVEEDOR_TABLE,proveedorSchema);
     await queryInterface.createTable(DESCUENTO_TABLE,descuentoSchema);
+    await queryInterface.createTable(COMPRA_TABLE,compraSchema);
     await queryInterface.createTable(PAGO_TABLE,pagoSchema);
+    await queryInterface.createTable(COMPRA_PRODUCTO_TABLE,compraProductoSchema);
+    await queryInterface.createTable(VENTA_TABLE,ventaSchema);
+    await queryInterface.createTable(COBRO_TABLE,cobroSchema);
+    await queryInterface.createTable(VENTA_PRODUCTO_TABLE,ventaProductoSchema);
   },
 
   async down (queryInterface, Sequelize) {
+
+    await queryInterface.dropTable(VENTA_PRODUCTO_TABLE);
+    await queryInterface.dropTable(COBRO_TABLE);
+    await queryInterface.dropTable(VENTA_TABLE);
+    await queryInterface.dropTable(COMPRA_PRODUCTO_TABLE);
     await queryInterface.dropTable(PAGO_TABLE);
+    await queryInterface.dropTable(COMPRA_TABLE);
     await queryInterface.dropTable(DESCUENTO_TABLE);
     await queryInterface.dropTable(PROVEEDOR_TABLE);
     await queryInterface.dropTable(CLIENTE_TABLE);

@@ -1,8 +1,10 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
+const {VENTA_TABLE}=require('../models/venta.model');
+const {CLIENTE_TABLE}=require('../models/cliente.model');
 const {CUENTA_TABLE}=require('../models/cuenta.model');
-const CLIENTE_TABLE = 'clientes';
-const clienteSchema  = {
+const COBRO_TABLE = 'cobros';
+const cobroSchema  = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -21,11 +23,22 @@ const clienteSchema  = {
     onDelete: 'SET NULL'
 
   },
+  ventaId:{
+    field: 'venta_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: VENTA_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+
+  },
   cuentaId:{
     field: 'cuenta_id',
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: true,
     references: {
       model: CUENTA_TABLE,
       key: 'id'
@@ -34,25 +47,9 @@ const clienteSchema  = {
     onDelete: 'SET NULL'
 
   },
-  nombre: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  celular: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  direccion: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  email: {
-    allowNull: false,
-    type: DataTypes.STRING,
-  },
-  imagen: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  monto: {
+    type: DataTypes.DOUBLE,
+    allowNull: false
   },
   createdAt: {
     allowNull: false,
@@ -62,27 +59,25 @@ const clienteSchema  = {
   }
 }
 
-class Cliente extends Model{
+class Cobro extends Model{
   // crear metodos estaticos
   static associate(models){
     this.belongsTo(models.Negocio, {as: 'negocio'});
-    this.belongsTo(models.Cuenta, {as: 'cuenta'});
-    this.hasMany(models.Venta, {as: 'ventas', foreignKey: 'clienteId'});
-
-
+   this.belongsTo(models.Cuenta, {as: 'cuenta'});
+   this.belongsTo(models.Venta, {as: 'venta'});
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {
       sequelize,
-      tableName:  CLIENTE_TABLE,
-      modelName: 'Cliente',
+      tableName:  COBRO_TABLE,
+      modelName: 'Cobro',
       timestamps: false
     }
   }
 }
 module.exports = {
-  CLIENTE_TABLE,
-  clienteSchema,
-  Cliente
+  COBRO_TABLE,
+  cobroSchema,
+  Cobro
 }

@@ -57,6 +57,10 @@ const usuarioSchema  = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  imagen: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   /*roleId: {
     field: 'role_id',
     allowNull: false,
@@ -80,18 +84,13 @@ const usuarioSchema  = {
 class Usuario extends Model{
   // crear metodos estaticos
   static associate(models){
-    // aqui quedara la parte donde trabajaremos todas laas relaciones
-    /*this.hasOne(models.Negocio|, {
-      as: 'customer',
-      foreignKey: 'userId'
-    });
-    usuario -> empresa N:1
-    usaurio -> role 1:1
 
-    */
     this.belongsTo(models.Negocio, {as: 'negocio'});
     this.belongsTo(models.Cuenta, {as: 'cuenta'});
-   // this.belongsTo(models.Negocio, {as: 'negocio'});
+    this.hasMany(models.Compra, {as: 'compras', foreignKey: 'usuarioId'});
+    this.hasMany(models.Venta, {as: 'ventas', foreignKey: 'usuarioId'});
+
+
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
