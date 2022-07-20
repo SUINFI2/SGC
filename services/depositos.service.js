@@ -5,8 +5,28 @@ class DepositosService {
     const dat = await models.Deposito.create(data);
     return dat;
   }
+  async addItem(data){
+    const rta = await models.DepositoProducto.create(data);
+    return rta;
+  }
+  async subtractItems(data){
+    const items = await models.DepositoProducto.findAll({
+      where:{
+        depositoId: data.depositoId,
+        productoId: data.productoId
+      }
+    });
+    items.forEach(async (item) => {
+      await item.destroy();
+    });
+    return true;
+  }
    async find(id){
-      const negocio  = await models.Negocio.findByPk(id,{include:['depositos']});
+      const negocio  = await models.Negocio.findByPk(id,{include:[
+        {
+          association: 'depositos',
+          include:['items']
+        }]});
       if(!negocio){ throw boom.notFound('Negocio Not Found');}
       return negocio.depositos;
     }

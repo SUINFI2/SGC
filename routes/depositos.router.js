@@ -5,7 +5,9 @@ const service = new DepositosService();
 const  {
   createdepositoSchema,
   updatedepositoSchema,
-  getdepositoSchema
+  getdepositoSchema,
+  addItemSchema,
+  subractItemSchema
   } = require('../schemas/deposito.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
@@ -70,5 +72,26 @@ router.delete('/:negocioId/:depositoId',
 });
 
 
+router.post('/add-item',
+validatorHandler(addItemSchema,'body'),
+async (req, res) => {
+  const body = req.body;
+  const Newcompra = await service.addItem(body);
+  res.json({
+    message: 'created',
+    data: Newcompra
+  });
+});
+
+router.delete('/subtract-items/:depositoId/:productoId',
+validatorHandler(subractItemSchema,'params'),
+async (req, res) => {
+  const body = req.body;
+  const Newcompra = await service.subtractItems(req.params);
+  res.json({
+    message: 'delete',
+    data: Newcompra
+  });
+});
 
 module.exports=router;

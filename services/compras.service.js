@@ -24,12 +24,9 @@ class ComprasService {
         productoId: data.productoId
       }
     });
-    //const rta = await items[0].destroy();
-
     items.forEach(async (item) => {
       await item.destroy();
     });
-
     return true;
   }
    async find(id,query){

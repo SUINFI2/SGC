@@ -14,6 +14,7 @@ const {PAGO_TABLE,pagoSchema}=require('../models/pago.model');
 const {COBRO_TABLE,cobroSchema}=require('../models/cobro.model');
 const {VENTA_TABLE,ventaSchema}=require('../models/venta.model');
 const {VENTA_PRODUCTO_TABLE,ventaProductoSchema}=require('../models/venta-producto');
+const {DEPOSITO_PRODUCTO_TABLE,depositoProductoSchema}=require('../models/deposito-producto');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(NEGOCIO_TABLE,negocioSchema);
@@ -31,10 +32,12 @@ module.exports = {
     await queryInterface.createTable(VENTA_TABLE,ventaSchema);
     await queryInterface.createTable(COBRO_TABLE,cobroSchema);
     await queryInterface.createTable(VENTA_PRODUCTO_TABLE,ventaProductoSchema);
+    await queryInterface.createTable(DEPOSITO_PRODUCTO_TABLE,depositoProductoSchema);
   },
 
   async down (queryInterface, Sequelize) {
 
+    await queryInterface.dropTable(DEPOSITO_PRODUCTO_TABLE);
     await queryInterface.dropTable(VENTA_PRODUCTO_TABLE);
     await queryInterface.dropTable(COBRO_TABLE);
     await queryInterface.dropTable(VENTA_TABLE);
