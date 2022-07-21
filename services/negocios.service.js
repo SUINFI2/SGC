@@ -8,6 +8,8 @@ class NegociosService {
     return rta;
   }
   async find(){
+
+return {dat: 32};
     const rta = await models.Negocio.findAll({include:['categorias','productos','usuarios','clientes','proveedores']});
     return rta;
   }
