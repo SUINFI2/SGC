@@ -1,3 +1,4 @@
+console.log('aqui 11..........');
 const { Sequelize } = require('sequelize');
 
 const { config } = require('../config/config');
