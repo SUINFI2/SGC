@@ -17,10 +17,10 @@ if (config.isProd) {
   }
 }
 console.log('aqui 22'+config.isProd);
-const sequelize = new sequelize(config.dbUrl,options);
+const Sequelize = new sequelize(config.dbUrl,options);
 
 console.log('aqui 23');
-setupModels(sequelize);
+setupModels(Sequelize);
 
 
-module.exports = sequelize;
+module.exports = Sequelize;
