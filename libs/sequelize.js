@@ -11,6 +11,7 @@ console.log('aqui 21');
 if (config.isProd) {
   options.dialectOptions = {
     ssl: {
+      require: true,
       rejectUnauthorized: false
     }
   }
