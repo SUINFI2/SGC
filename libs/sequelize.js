@@ -7,7 +7,7 @@ const options = {
   dialect: 'postgres',
   logging: config.isProd ? false : true,
 }
-console.log('aqui 21');
+console.log('aqui 21..........');
 if (config.isProd) {
   options.dialectOptions = {
     ssl: {
@@ -16,7 +16,7 @@ if (config.isProd) {
     }
   }
 }
-console.log('aqui 22');
+console.log('aqui 22'+config.isProd);
 const sequelize = new Sequelize(config.dbUrl,options);
 
 console.log('aqui 23');

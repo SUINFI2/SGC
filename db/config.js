@@ -1,5 +1,6 @@
 const {config} = require('../config/config');
-module.exports={
+
+module.exports = {
   development: {
     url: config.dbUrl,
     dialect: 'postgres',
@@ -7,8 +8,10 @@ module.exports={
   production: {
     url: config.dbUrl,
     dialect: 'postgres',
-    ssl: {
-      rejectUnauthorized: false,
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: false
+      }
     }
   }
 }
