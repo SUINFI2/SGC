@@ -1,5 +1,5 @@
 const express = require('express');
-console.log('Mi App');
+
 const routerApi = require('./routes/index');
 const cors = require('cors');
 const app = express();

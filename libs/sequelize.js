@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { sequelize } = require('sequelize');
 
 const { config } = require('../config/config');
 const setupModels = require('../db/models');
@@ -17,7 +17,7 @@ if (config.isProd) {
   }
 }
 console.log('aqui 22'+config.isProd);
-const sequelize = new Sequelize(config.dbUrl,options);
+const sequelize = new sequelize(config.dbUrl,options);
 
 console.log('aqui 23');
 setupModels(sequelize);
