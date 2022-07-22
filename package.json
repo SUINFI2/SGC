@@ -23,25 +23,25 @@
     "url": "https://github.com/LucianoMassa98/Backend-Destored/issues"
   },
   "homepage": "https://github.com/LucianoMassa98/Backend-Destored#readme",
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.18",
+    "prettier": "^2.7.1",
+    "sequelize": "^6.21.2",
+    "sequelize-cli": "^6.4.1"
+  },
   "dependencies": {
-    "@hapi/boom": "^9.1.4",
+    "@hapi/boom": "^10.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.2",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "joi": "^17.6.0",
-    "mysql2": "^2.3.3",
-    "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.16.2",
+    "sequelize": "^6.21.2",
     "sequelize-cli": "^6.4.1"
-
-  },
-  "devDependencies": {
-    "eslint": "^8.8.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1"
   },
   "engines": {
     "node": "16.x"
