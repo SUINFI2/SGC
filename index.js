@@ -18,8 +18,9 @@ const options = {
     }
   }
 }
-app.use(cors(options));
-//app.use(cors()); // si lo hacemos asi, habilitamos a cualquier dominio
+
+//app.use(cors(options));
+app.use(cors()); // si lo hacemos asi, habilitamos a cualquier dominio
 
 
 routerApi(app);
