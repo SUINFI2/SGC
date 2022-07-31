@@ -5,7 +5,8 @@ const service = new ClientesService();
 const  {
   createclienteSchema,
   updateclienteSchema,
-  getclienteSchema
+  getclienteSchema,
+  queryClienteSchema
   } = require('../schemas/cliente.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
@@ -22,11 +23,12 @@ async (req,res,next)=>{
   }
 });
 router.get('/:negocioId/:clienteId',
+validatorHandler(queryClienteSchema, 'query'),
 validatorHandler(getclienteSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,clienteId}=req.params;
-  const cliente = await service.findOne(negocioId,clienteId);
+  const cliente = await service.findOne(negocioId,clienteId,req.query);
   res.json(cliente);
   }catch(err){
     next(err);
@@ -34,13 +36,10 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createclienteSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcliente = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newcliente
-  });
+async (req, res,next) => {
+  try{
+    const Newcliente = await service.create(req.body);
+    res.json(Newcliente);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:clienteId',
 validatorHandler(getclienteSchema,'params'),

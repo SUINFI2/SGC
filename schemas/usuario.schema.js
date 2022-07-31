@@ -15,10 +15,6 @@ const createusuarioSchema = joi.object({
   direccion: direccion.required(),
   email:email.required(),
   password:password.required(),
-  cuenta: joi.object({
-    negocioId: negocioId.required(),
-    nombre: nombre.required()
-  })
   //role:role.required()
 });
 const updateusuarioSchema = joi.object({

@@ -31,13 +31,10 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createrolSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newrol = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newrol
-  });
+async (req, res,next) => {
+  try{const Newrol = await service.create(req.body);
+    res.json(Newrol);}catch(err){next(err);}
+
 });
 router.patch('/:rolId',
 validatorHandler(getrolSchema,'params'),

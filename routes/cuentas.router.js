@@ -34,13 +34,10 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createcuentaSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcuenta = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newcuenta
-  });
+async (req, res,next) => {
+  try{
+    const Newcuenta = await service.create(req.body);
+    res.json(Newcuenta);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:cuentaId',
 validatorHandler(getcuentaSchema,'params'),
@@ -48,8 +45,7 @@ validatorHandler(updatecuentaSchema,'body'),
 async (req, res,next) => {
   try{
     const { negocioId,cuentaId } = req.params;
-    const body = req.body;
-    const xupdate = await service.update(negocioId,cuentaId,body);
+    const xupdate = await service.update(negocioId,cuentaId,req.body);
     res.json(xupdate);
   }
   catch(err){

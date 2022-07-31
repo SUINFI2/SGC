@@ -3,7 +3,8 @@ const router=express.Router();
 const {
   createcategoriaSchema,
   updatecategoriaSchema,
-  getcategoriaSchema
+  getcategoriaSchema,
+  queryCategoriaSchema
   } = require('../schemas/categoria.schema');
 const CategoriasService = require('../services/categorias.service');
 const service = new CategoriasService();
@@ -11,14 +12,17 @@ const service = new CategoriasService();
 const {getnegocioSchema}  = require('../schemas/negocio.schema');
 
 const validatorHandler = require('../middlewares/validator.handler');
+const {checkApiKey}=require('../middlewares/auth.handler');
 
 
 router.get('/:negocioId',
+checkApiKey,
+validatorHandler(queryCategoriaSchema,'query'),
 validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
   try{
     const {negocioId} = req.params;
-    const products=await service.find(negocioId);
+    const products=await service.find(negocioId,req.query);
     res.json(products);
   }catch(err){
     next(err);

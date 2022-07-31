@@ -34,28 +34,12 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createcobroSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcobro = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newcobro
-  });
-});
-router.patch('/:negocioId/:cobroId',
-validatorHandler(getcobroSchema,'params'),
-validatorHandler(updatecobroSchema,'body'),
 async (req, res,next) => {
-  try{
-    const { negocioId,cobroId } = req.params;
-    const body = req.body;
-    const cobUpdate = await service.update(negocioId,cobroId,body);
-    res.json(cobUpdate);
-  }
-  catch(err){
-    next(err);
-  }
+  try{ const Newcobro = await service.create(req.body);
+    res.json(Newcobro);}catch(err){next(err);}
+
 });
+
 
 router.delete('/:negocioId/:cobroId',
   validatorHandler(getcobroSchema,'params'),

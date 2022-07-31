@@ -71,6 +71,10 @@ class Producto extends Model{
   this.belongsTo(models.Categoria, {as: 'categoria'});
   this.belongsTo(models.Negocio, {as: 'negocio'});
   }
+
+  async calcularPrecioVenta(){
+    return this.costo + this.margen;
+  }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {

@@ -38,9 +38,9 @@ class ProductoService{
       return negocio.productos;
     }
   async findOne(negocioId,productoId){
-    const productos  = await this.find(negocioId);
-    const producto = await productos.find((items) => items.id == productoId);
+    const producto = await models.Producto.findByPk(productoId);
     if(!producto){ throw boom.notFound('Producto Not Found');}
+    if(producto.negocioId!=negocioId){throw boom.conflict('Producto no pertence al Negocio');}
      return producto;
   }
   async update(negocioId,productoId, change){

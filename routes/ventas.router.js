@@ -7,14 +7,14 @@ const  {
   updateventaSchema,
   getventaSchema,
   addItemSchema,
-  queryCompraSchema,
+  queryVentaSchema,
   substractItemSchema
   } = require('../schemas/venta.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
   const validatorHandler = require('../middlewares/validator.handler');
   router.get('/:negocioId',
-  validatorHandler(queryCompraSchema,'query'),
+  validatorHandler(queryVentaSchema,'query'),
 validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
   try{
@@ -26,11 +26,12 @@ async (req,res,next)=>{
   }
 });
 router.get('/:negocioId/:ventaId',
+validatorHandler(queryVentaSchema, 'query'),
 validatorHandler(getventaSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,ventaId}=req.params;
-  const venta = await service.findOne(negocioId,ventaId);
+  const venta = await service.findOne(negocioId,ventaId,req.query);
   res.json(venta);
   }catch(err){
     next(err);
@@ -38,24 +39,18 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createventaSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newventa = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newventa
-  });
+async (req, res,next) => {
+  try{
+    const Newventa = await service.create(req.body);
+    res.json(Newventa);}catch(err){next(err);}
 });
 
 router.post('/add-item',
 validatorHandler(addItemSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcompra = await service.addItem(body);
-  res.json({
-    message: 'created',
-    data: Newcompra
-  });
+async (req, res,next) => {
+ try{const Newcompra = await service.addItem(req.body);
+  res.json(Newcompra);}catch(err){next(err);}
+
 });
 
 router.patch('/:negocioId/:ventaId',
@@ -74,7 +69,7 @@ async (req, res,next) => {
 });
 
 router.delete('/:negocioId/:ventaId',
-  validatorHandler(getventaSchema,'params'),
+validatorHandler(getventaSchema,'params'),
   async(req, res,next) => {
   try{
     const { negocioId,ventaId } = req.params;
@@ -85,14 +80,14 @@ router.delete('/:negocioId/:ventaId',
   }
 });
 
-router.delete('/subtract-item/:ventaId/:productoId',
-validatorHandler(substractItemSchema,'params'),
-async (req, res) => {
-  const Newcompra = await service.subtractItems(req.params);
-  res.json({
-    message: 'created',
-    data: Newcompra
-  });
+router.delete('/subtract-item',
+validatorHandler(substractItemSchema,'body'),
+async (req, res,next) => {
+  try{
+    const delItem = await service.subtractItems(req.body);
+    res.json(delItem);
+  }catch(err){ next(err);}
+
 });
 
 

@@ -1,11 +1,13 @@
 const joi = require('joi');
 const negocioId = joi.number().integer();
+const rubroId = joi.number().integer();
 const nombre = joi.string().min(3);
-const debe =  joi.number().positive();
-const haber =  joi.number().positive();
+const debe =  joi.number();
+const haber =  joi.number();
 
 const createcuentaSchema = joi.object({
   negocioId: negocioId.required(),
+  rubroId:rubroId.required(),
   nombre: nombre.required()
 });
 const updatecuentaSchema = joi.object({
@@ -14,8 +16,8 @@ const updatecuentaSchema = joi.object({
   haber
 });
 const getcuentaSchema = joi.object({
-  negocionegocioId: negocioId.required(),
-  cuentanegocioId: negocioId.required()
+  negocioId: negocioId.required(),
+  cuentaId: negocioId.required()
 });
 
 module.exports = {

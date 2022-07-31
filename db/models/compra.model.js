@@ -100,6 +100,26 @@ class Compra extends Model{
       }
       return 0;
   }
+  async totalPagado() {
+
+    if (this.pagos.length > 0 && !this.confirmPago) {
+      var sum =0;
+      for(let i =1; i<this.pagos.length; i++){
+        sum += this.pagos[i].monto;
+      }
+      return sum;
+    }
+    if(this.pagos.length===0){return 0;}
+    return total;
+  }
+  async cntPagos() {
+    if (this.pagos.length > 0) {
+      return this.pagos.reduce((total, item) => {
+        return total + 1;
+      }, 0);
+    }
+    return 0;
+  }
   // definir otrto estatico para la conexin
   static config(sequelize){
     return {

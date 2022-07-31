@@ -44,7 +44,7 @@ const queryProductoSchema = joi.object({
   costo_min,
   costo_max: costo_max.when('costo_min',{
     is: joi.number().positive(),
-    then: joi.required()
+   then: costo_max
   })
 });
 

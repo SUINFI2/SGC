@@ -1,5 +1,7 @@
 const {Model,DataTypes, Sequelize} = require('sequelize');
 const {NEGOCIO_TABLE}=require('../models/negocio.model');
+const {RUBRO_TABLE}=require('../models/rubro.model');
+
 const CUENTA_TABLE = 'cuentas';
 const cuentaSchema  = {
   id: {
@@ -14,6 +16,18 @@ const cuentaSchema  = {
     type: DataTypes.INTEGER,
     references: {
       model: NEGOCIO_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+
+  },
+  rubroId:{
+    field: 'rubro_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: RUBRO_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -58,9 +72,14 @@ class Cuenta extends Model{
       as: 'usuario',
       foreignKey: 'cuentaId'
     });
+    this.belongsTo(models.Rubro, {as: 'rubro'});
     this.hasMany(models.Pago, {as: 'pagos', foreignKey: 'cuentaId'});
     this.hasMany(models.Cobro, {as: 'cobros', foreignKey: 'cuentaId'});
 
+  }
+
+  async saldo(){
+    return this.debe-this.haber;
   }
   // definir otrto estatico para la conexin
   static config(sequelize){

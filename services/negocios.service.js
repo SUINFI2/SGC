@@ -9,12 +9,11 @@ class NegociosService {
   }
   async find(){
 
-return {dat: 32};
-    const rta = await models.Negocio.findAll({include:['categorias','productos','usuarios','clientes','proveedores']});
+    const rta = await models.Negocio.findAll({include:['depositos','categorias','productos','usuarios','clientes','proveedores']});
     return rta;
   }
   async findOne(id){
-    const rta = await models.Negocio.findByPk(id,{include:['categorias','productos','usuarios','clientes','proveedores']});
+    const rta = await models.Negocio.findByPk(id,{include:['cuentas','depositos','categorias','productos','usuarios','clientes','proveedores']});
    if(!rta){throw boom.notFound('Negocio Not Found');}
     return rta;
   }

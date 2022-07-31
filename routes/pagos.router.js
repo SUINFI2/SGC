@@ -34,13 +34,9 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createpagoSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newpago = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newpago
-  });
+async (req, res,next) => {
+  try{const Newpago = await service.create(req.body);
+    res.json(Newpago);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:pagoId',
 validatorHandler(getpagoSchema,'params'),

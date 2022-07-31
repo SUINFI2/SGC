@@ -12,6 +12,9 @@ const confirmDeposito = joi.boolean();
 const confirmPago = joi.boolean();
 const limit = joi.number().integer();
 const offset = joi.number().integer();
+const pagos = joi.boolean();
+const items = joi.boolean();
+const proveedor = joi.boolean();
 const createcompraSchema = joi.object({
   negocioId: negocioId.required(),
 
@@ -41,6 +44,12 @@ const subractItemSchema = joi.object({
   productoId: productoId.required()
 
 });
+const updateItemSchema = joi.object({
+  compraId: compraId.required(),
+  productoId: productoId.required(),
+  cantidad: cantidad.required()
+
+});
 const queryCompraSchema = joi.object({
   limit,
   offset,
@@ -48,8 +57,12 @@ const queryCompraSchema = joi.object({
   confirmDeposito,
   confirmPago: confirmPago.when('confirm_deposito',{
     is: true,
-    then: joi.required()
-  })
+    then: confirmPago
+  }),
+  pagos,
+  items,
+  proveedor
+
 });
 
 module.exports = {
@@ -58,5 +71,7 @@ module.exports = {
   getcompraSchema,
   addItemSchema,
   queryCompraSchema,
-  subractItemSchema
+  subractItemSchema,
+  updateItemSchema
+
   };

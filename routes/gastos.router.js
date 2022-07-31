@@ -32,17 +32,12 @@ async (req,res,next)=>{
     next(err);
   }
 });
-router.post('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
+router.post('/',
 validatorHandler(creategastoSchema,'body'),
-async (req, res) => {
-  const {negocioId} = req.params;
-  const body = req.body;
-  const Newgasto = await service.create(negocioId,body);
-  res.json({
-    message: 'created',
-    data: Newgasto
-  });
+async (req, res,next) => {
+  try{
+    const Newgasto = await service.create(req.body);
+    res.json(Newgasto);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:gastoId',
 validatorHandler(getgastoSchema,'params'),

@@ -5,7 +5,8 @@ const service = new ProveedoresService();
 const  {
   createproveedorSchema,
   updateproveedorSchema,
-  getproveedorSchema
+  getproveedorSchema,
+  queryProveedorSchema
   } = require('../schemas/proveedor.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
@@ -22,11 +23,12 @@ async (req,res,next)=>{
   }
 });
 router.get('/:negocioId/:proveedorId',
+validatorHandler(queryProveedorSchema,'query'),
 validatorHandler(getproveedorSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,proveedorId}=req.params;
-  const proveedor = await service.findOne(negocioId,proveedorId);
+  const proveedor = await service.findOne(negocioId,proveedorId,req.query);
   res.json(proveedor);
   }catch(err){
     next(err);
@@ -34,13 +36,9 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createproveedorSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newproveedor = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newproveedor
-  });
+async (req, res,next) => {
+  try{const Newproveedor = await service.create(req.body);
+    res.json(Newproveedor);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:proveedorId',
 validatorHandler(getproveedorSchema,'params'),
@@ -48,8 +46,7 @@ validatorHandler(updateproveedorSchema,'body'),
 async (req, res,next) => {
   try{
     const { negocioId,proveedorId } = req.params;
-    const body = req.body;
-    const xupdate = await service.update(negocioId,proveedorId,body);
+    const xupdate = await service.update(negocioId,proveedorId,req.body);
     res.json(xupdate);
   }
   catch(err){

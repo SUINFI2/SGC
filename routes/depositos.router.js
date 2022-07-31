@@ -7,7 +7,11 @@ const  {
   updatedepositoSchema,
   getdepositoSchema,
   addItemSchema,
-  subractItemSchema
+  subractItemSchema,
+  getItemSchema,
+  updateItemSchema,
+  confirmPutDeposito,
+  confirmOutDeposito
   } = require('../schemas/deposito.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
@@ -33,16 +37,15 @@ async (req,res,next)=>{
   }catch(err){
     next(err);
   }
-}); 
+});
 router.post('/',
 validatorHandler(createdepositoSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newdeposito = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newdeposito
-  });
+async (req, res,next) => {
+  try{
+
+  const Newdeposito = await service.create(req.body);
+  res.json(Newdeposito);
+  }catch(err){next(err);}
 });
 router.patch('/:negocioId/:depositoId',
 validatorHandler(getdepositoSchema,'params'),
@@ -74,24 +77,54 @@ router.delete('/:negocioId/:depositoId',
 
 router.post('/add-item',
 validatorHandler(addItemSchema,'body'),
+async (req, res,next) => {
+  try{
+
+  const Newcompra = await service.addItem(req.body);
+  res.json(Newcompra);
+  }catch(err){next(err);}
+});
+
+router.delete('/subtract-item',
+validatorHandler(subractItemSchema,'body'),
+async (req, res,next) => {
+  try{
+
+  const Newcompra = await service.subtractItems(req.body);
+  res.json(Newcompra);
+  }catch(err){next(err);}
+});
+
+router.patch('/update-item',
+validatorHandler(updateItemSchema,'body'),
+async (req, res,next) => {
+  try{
+    const Newcompra = await service.updateItem(req.body);
+    res.json(Newcompra);
+  }catch(err){next(err);}
+
+});
+
+
+router.patch('/confirmPutDeposito',
+validatorHandler(confirmPutDeposito,'body'),
 async (req, res) => {
   const body = req.body;
-  const Newcompra = await service.addItem(body);
+  const Newcompra = await service.confirmPutDeposito(body);
   res.json({
-    message: 'created',
+    message: 'updated',
     data: Newcompra
   });
 });
 
-router.delete('/subtract-items/:depositoId/:productoId',
-validatorHandler(subractItemSchema,'params'),
+router.patch('/confirmOutDeposito',
+validatorHandler(confirmOutDeposito,'body'),
 async (req, res) => {
   const body = req.body;
-  const Newcompra = await service.subtractItems(req.params);
+  const Newcompra = await service.confirmOutDeposito(body);
   res.json({
-    message: 'delete',
+    message: 'updated',
     data: Newcompra
   });
 });
-
 module.exports=router;

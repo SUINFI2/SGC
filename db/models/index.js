@@ -14,6 +14,7 @@ const {Producto, productoSchema}= require('./producto.model');
 const {Negocio, negocioSchema}= require('./negocio.model');
 const {Pago, pagoSchema}= require('./pago.model');
 const {Cobro, cobroSchema}= require('./cobro.model');
+const {Rubro, rubroSchema}= require('./rubro.model');
 
 function setupModels(sequelize){
 
@@ -26,7 +27,6 @@ Categoria.init(categoriaSchema,Categoria.config(sequelize));
 Producto.init(productoSchema,Producto.config(sequelize));
 Deposito.init(depositoSchema,Deposito.config(sequelize));
 Descuento.init(descuentoSchema,Descuento.config(sequelize));
-
 Cobro.init(cobroSchema,Cobro.config(sequelize));
 Compra.init(compraSchema,Compra.config(sequelize));
 Pago.init(pagoSchema,Pago.config(sequelize));
@@ -34,6 +34,7 @@ Venta.init(ventaSchema,Venta.config(sequelize));
 VentaProducto.init(ventaProductoSchema,VentaProducto.config(sequelize));
 CompraProducto.init(compraProductoSchema,CompraProducto.config(sequelize));
 DepositoProducto.init(depositoProductoSchema,DepositoProducto.config(sequelize));
+Rubro.init(rubroSchema,Rubro.config(sequelize));
 
 Negocio.associate(sequelize.models);
 Usuario.associate(sequelize.models);
@@ -48,6 +49,7 @@ Cobro.associate(sequelize.models);
 Venta.associate(sequelize.models);
 Compra.associate(sequelize.models);
 Pago.associate(sequelize.models);
+Rubro.associate(sequelize.models);
 
 }
 module.exports = setupModels;

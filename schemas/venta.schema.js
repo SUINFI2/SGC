@@ -12,6 +12,10 @@ const confirmCobro = joi.boolean();
 const fecha = joi.date();
 const limit = joi.number().integer();
 const offset = joi.number().integer();
+const cobros = joi.boolean();
+const items = joi.boolean();
+const cliente = joi.boolean();
+
 const createventaSchema = joi.object({
   negocioId: negocioId.required(),
   clienteId: clienteId.required(),
@@ -39,7 +43,7 @@ const substractItemSchema = joi.object({
   ventaId: ventaId.required(),
   productoId: productoId.required()
 });
-const queryCompraSchema = joi.object({
+const queryVentaSchema = joi.object({
   limit,
   offset,
   fecha,
@@ -47,7 +51,10 @@ const queryCompraSchema = joi.object({
   confirmCobro: confirmCobro.when('confirm_deposito',{
     is: true,
     then: joi.required()
-  })
+  }),
+  cobros,
+  items,
+  cliente
 });
 
 module.exports = {
@@ -55,6 +62,6 @@ module.exports = {
   updateventaSchema,
   getventaSchema,
   addItemSchema,
-  queryCompraSchema,
+  queryVentaSchema,
   substractItemSchema
   };

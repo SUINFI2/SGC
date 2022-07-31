@@ -8,7 +8,8 @@ const  {
   getcompraSchema,
   addItemSchema,
   queryCompraSchema,
-  subractItemSchema
+  subractItemSchema,
+  updateItemSchema
   } = require('../schemas/compra.schema');
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
@@ -27,11 +28,12 @@ async (req,res,next)=>{
   }
 });
 router.get('/:negocioId/:compraId',
+validatorHandler(queryCompraSchema,'query'),
 validatorHandler(getcompraSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,compraId}=req.params;
-  const compra = await service.findOne(negocioId,compraId);
+  const compra = await service.findOne(negocioId,compraId,req.query);
   res.json(compra);
   }catch(err){
     next(err);
@@ -39,56 +41,37 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createcompraSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcompra = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newcompra
-  });
+async (req, res,next) => {
+  try{
+    const Newcompra = await service.create(req.body);
+    res.json(Newcompra);}catch(err){ next(err);}
 });
 
 router.post('/add-item',
 validatorHandler(addItemSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newcompra = await service.addItem(body);
-  res.json({
-    message: 'created',
-    data: Newcompra
-  });
+async (req, res,next) => {
+ try{ const Newcompra = await service.addItem(req.body);
+  res.json(Newcompra);}catch(err){next(err);}
 });
 
-router.delete('/subtract-items/:compraId/:productoId',
-validatorHandler(subractItemSchema,'params'),
-async (req, res) => {
-  const body = req.body;
-  const Newcompra = await service.subtractItems(req.params);
-  res.json({
-    message: 'created',
-    data: Newcompra
-  });
+router.delete('/subtract-item',
+validatorHandler(subractItemSchema,'body'),
+async (req, res,next) => {
+  try{const Newcompra = await service.subtractItems(req.body);
+    res.json(Newcompra);}catch(err){next(err);}
 });
-
-
-
-
-
-
-router.patch('/:negocioId/:compraId',
-validatorHandler(getcompraSchema,'params'),
-validatorHandler(updatecompraSchema,'body'),
+router.patch('/update-item',
+validatorHandler(updateItemSchema,'body'),
 async (req, res,next) => {
   try{
-    const { negocioId,compraId } = req.params;
-    const body = req.body;
-    const xupdate = await service.update(negocioId,compraId,body);
+    const xupdate = await service.updateItem(req.body);
     res.json(xupdate);
   }
   catch(err){
     next(err);
   }
 });
+
 
 router.delete('/:negocioId/:compraId',
   validatorHandler(getcompraSchema,'params'),

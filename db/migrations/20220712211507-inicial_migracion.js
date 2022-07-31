@@ -15,10 +15,12 @@ const {COBRO_TABLE,cobroSchema}=require('../models/cobro.model');
 const {VENTA_TABLE,ventaSchema}=require('../models/venta.model');
 const {VENTA_PRODUCTO_TABLE,ventaProductoSchema}=require('../models/venta-producto');
 const {DEPOSITO_PRODUCTO_TABLE,depositoProductoSchema}=require('../models/deposito-producto');
+const {RUBRO_TABLE,rubroSchema}=require('../models/rubro.model');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(NEGOCIO_TABLE,negocioSchema);
     await queryInterface.createTable(DEPOSITO_TABLE,depositoSchema);
+    await queryInterface.createTable(RUBRO_TABLE,rubroSchema);
     await queryInterface.createTable(CUENTA_TABLE,cuentaSchema);
     await queryInterface.createTable(CATEGORIA_TABLE,categoriaSchema);
     await queryInterface.createTable(PRODUCTO_TABLE,productoSchema);
@@ -33,6 +35,7 @@ module.exports = {
     await queryInterface.createTable(COBRO_TABLE,cobroSchema);
     await queryInterface.createTable(VENTA_PRODUCTO_TABLE,ventaProductoSchema);
     await queryInterface.createTable(DEPOSITO_PRODUCTO_TABLE,depositoProductoSchema);
+
   },
 
   async down (queryInterface, Sequelize) {
@@ -51,6 +54,7 @@ module.exports = {
     await queryInterface.dropTable(PRODUCTO_TABLE);
     await queryInterface.dropTable(CATEGORIA_TABLE);
     await queryInterface.dropTable(CUENTA_TABLE);
+    await queryInterface.dropTable(RUBRO_TABLE);
     await queryInterface.dropTable(DEPOSITO_TABLE);
     await queryInterface.dropTable(NEGOCIO_TABLE);
 

@@ -48,8 +48,7 @@ validatorHandler(updatedescuentoSchema,'body'),
 async (req, res,next) => {
   try{
     const { negocioId,descuentoId } = req.params;
-    const body = req.body;
-    const xupdate = await service.update(negocioId,descuentoId,body);
+    const xupdate = await service.update(negocioId,descuentoId,req.body);
     res.json(xupdate);
   }
   catch(err){

@@ -26,7 +26,7 @@ validatorHandler(getusuarioSchema, 'params'),
 async (req,res,next)=>{
   try{
     const{negocioId,usuarioId}=req.params;
-  const usuario = await service.findOne(negocioId,usuarioId);
+  const usuario = await service.findOne(negocioId,usuarioId,req.query);
   res.json(usuario);
   }catch(err){
     next(err);
@@ -34,13 +34,10 @@ async (req,res,next)=>{
 });
 router.post('/',
 validatorHandler(createusuarioSchema,'body'),
-async (req, res) => {
-  const body = req.body;
-  const Newusuario = await service.create(body);
-  res.json({
-    message: 'created',
-    data: Newusuario
-  });
+async (req, res, next) => {
+  try{
+    const Newusuario = await service.create(req.body);
+    res.json(Newusuario);}catch(err){next(err);}
 });
 router.patch('/:negocioId/:usuarioId',
 validatorHandler(getusuarioSchema,'params'),

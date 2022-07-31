@@ -49,6 +49,7 @@ class Negocio extends Model{
     this.hasMany(models.Compra, {as: 'compras', foreignKey: 'negocioId'});
     this.hasMany(models.Venta, {as: 'ventas', foreignKey: 'negocioId'});
     this.hasMany(models.Cobro, {as: 'cobros', foreignKey: 'negocioId'});
+
   }
   // definir otrto estatico para la conexin
   static config(sequelize){
