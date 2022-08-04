@@ -10,6 +10,8 @@ const  {
 
   const {getnegocioSchema} = require('../schemas/negocio.schema');
   const validatorHandler = require('../middlewares/validator.handler');
+
+
   router.get('/:negocioId',
 validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{

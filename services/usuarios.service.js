@@ -22,7 +22,7 @@ class UsuariosService {
       await newCuenta.destroy();
       throw boom.notFound();
     }
-    delete newUsuario.getDataValue.password;
+    delete newUsuario.dataValues.password;
     return newUsuario;
   }
   async find(negocioId) {
@@ -51,8 +51,19 @@ class UsuariosService {
     }
     return user;
   }
+  async findByEmail(email) {
+
+    const user = await models.Usuario.findOne({
+      where:{ email:email}
+    });
+    if (!user) {
+      throw boom.notFound('User not found lpm');
+    }
+
+    return user;
+  }
   async update(negocioId, usuarioId, changes) {
-    const user = await this.findOne(negocioId, usuarioId);
+    const user = await this.findOne(negocioId, usuarioId,{});
     const rta = await user.update(changes);
     return rta;
   }
