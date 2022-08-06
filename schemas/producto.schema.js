@@ -34,7 +34,6 @@ const updateproductoSchema = joi.object({
  margen
 });
 const getproductoSchema = joi.object({
-  negocioId: id.required(),
   productoId: id.required()
 });
 const queryProductoSchema = joi.object({

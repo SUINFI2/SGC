@@ -57,22 +57,19 @@ const usuarioSchema  = {
     allowNull: false,
     type: DataTypes.STRING
   },
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
+    type: DataTypes.STRING
+  },
   imagen: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  /*roleId: {
-    field: 'role_id',
-    allowNull: false,
-    type: DataTypes.INTEGER,
-    references: {
-      model: ROLE_TABLE,
-      key: 'id'
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
-
-  },*/
+  role: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,

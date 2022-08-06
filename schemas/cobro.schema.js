@@ -16,7 +16,6 @@ const updatecobroSchema = joi.object({
   monto,
 });
 const getcobroSchema = joi.object({
-  negocioId: negocioId.required(),
   cobroId: cobroId.required()
 });
 

@@ -16,7 +16,6 @@ const updatecuentaSchema = joi.object({
   haber
 });
 const getcuentaSchema = joi.object({
-  negocioId: negocioId.required(),
   cuentaId: negocioId.required()
 });
 

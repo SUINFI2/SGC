@@ -1,45 +1,49 @@
 const express=require('express');
-const router=express.Router();
+
+const validatorHandler = require('../middlewares/validator.handler');
+const passport = require('passport');
+const {checkRoles}=require('../middlewares/auth.handler');
+
 const {
   createcategoriaSchema,
   updatecategoriaSchema,
   getcategoriaSchema,
   queryCategoriaSchema
   } = require('../schemas/categoria.schema');
+
 const CategoriasService = require('../services/categorias.service');
 const service = new CategoriasService();
-
-const {getnegocioSchema}  = require('../schemas/negocio.schema');
-
-const validatorHandler = require('../middlewares/validator.handler');
-const {checkApiKey}=require('../middlewares/auth.handler');
+const router=express.Router();
 
 
-router.get('/:negocioId',
-checkApiKey,
+router.get('/',
+passport.authenticate('jwt', { session: false }),
 validatorHandler(queryCategoriaSchema,'query'),
-validatorHandler(getnegocioSchema,'params'),
 async (req,res,next)=>{
   try{
-    const {negocioId} = req.params;
-    const products=await service.find(negocioId,req.query);
+    const user = req.user;
+    const products=await service.find(user.tenant,req.query);
     res.json(products);
   }catch(err){
     next(err);
   }
 });
-router.get('/:negocioId/:id',
+router.get('/:categoriaId',
+passport.authenticate('jwt', { session: false }),
 validatorHandler(getcategoriaSchema, 'params'),
 async (req,res,next)=>{
   try{
-    const{negocioId,id}=req.params;
-  const categoria = await service.findOne(negocioId,id);
+    const user = req.user;
+    const{categoriaId}=req.params;
+  const categoria = await service.findOne(user.tenant,categoriaId);
   res.json(categoria);
   }catch(err){
     next(err);
   }
 });
 router.post('/',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
 validatorHandler(createcategoriaSchema,'body'),
 async (req, res,next) => {
  try{ const body = req.body;
@@ -49,27 +53,31 @@ async (req, res,next) => {
     data: Newcategoria
   });}catch(err){next(err);}
 });
-router.patch('/:negocioId/:id',
+router.patch('/:categoriaId',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
 validatorHandler(getcategoriaSchema,'params'),
 validatorHandler(updatecategoriaSchema,'body'),
 async (req, res,next) => {
   try{
-    const { negocioId,id } = req.params;
-    const body = req.body;
-    const prodUpdate = await service.update(negocioId,id,body);
+    const user = req.user;
+    const {categoriaId } = req.params;
+    const prodUpdate = await service.update(user.tenant,categoriaId,req.body);
     res.json(prodUpdate);
   }
   catch(err){
     next(err);
   }
 });
-
-router.delete('/:negocioId/:id',
+router.delete('/:categoriaId',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getcategoriaSchema,'params'),
   async(req, res,next) => {
   try{
-    const { negocioId,id } = req.params;
-  const delProd = await service.delete(negocioId,id);
+    const user = req.user;
+    const {categoriaId } = req.params;
+  const delProd = await service.delete(user.tenant,categoriaId);
   res.json(delProd);
   }catch(err){
     next(err);

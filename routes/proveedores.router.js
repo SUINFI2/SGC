@@ -1,71 +1,102 @@
-const express=require('express');
-const router=express.Router();
-const ProveedoresService = require('../services/proveedores.service');
-const service = new ProveedoresService();
-const  {
+const express = require('express');
+
+const {
   createproveedorSchema,
   updateproveedorSchema,
   getproveedorSchema,
-  queryProveedorSchema
-  } = require('../schemas/proveedor.schema');
+  queryProveedorSchema,
+} = require('../schemas/proveedor.schema');
 
-  const {getnegocioSchema} = require('../schemas/negocio.schema');
-  const validatorHandler = require('../middlewares/validator.handler');
-  router.get('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
-async (req,res,next)=>{
-  try{
-    const {negocioId} = req.params;
-    const proveedors=await service.find(negocioId);
-    res.json(proveedors);
-  }catch(err){
-    next(err);
-  }
-});
-router.get('/:negocioId/:proveedorId',
-validatorHandler(queryProveedorSchema,'query'),
-validatorHandler(getproveedorSchema, 'params'),
-async (req,res,next)=>{
-  try{
-    const{negocioId,proveedorId}=req.params;
-  const proveedor = await service.findOne(negocioId,proveedorId,req.query);
-  res.json(proveedor);
-  }catch(err){
-    next(err);
-  }
-});
-router.post('/',
-validatorHandler(createproveedorSchema,'body'),
-async (req, res,next) => {
-  try{const Newproveedor = await service.create(req.body);
-    res.json(Newproveedor);}catch(err){next(err);}
-});
-router.patch('/:negocioId/:proveedorId',
-validatorHandler(getproveedorSchema,'params'),
-validatorHandler(updateproveedorSchema,'body'),
-async (req, res,next) => {
-  try{
-    const { negocioId,proveedorId } = req.params;
-    const xupdate = await service.update(negocioId,proveedorId,req.body);
-    res.json(xupdate);
-  }
-  catch(err){
-    next(err);
-  }
-});
+const validatorHandler = require('../middlewares/validator.handler');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
-router.delete('/:negocioId/:proveedorId',
-  validatorHandler(getproveedorSchema,'params'),
-  async(req, res,next) => {
-  try{
-    const { negocioId,proveedorId } = req.params;
-  const delX = await service.delete(negocioId,proveedorId);
-  res.json(delX);
-  }catch(err){
-    next(err);
+const ProveedoresService = require('../services/proveedores.service');
+const service = new ProveedoresService();
+const router = express.Router();
+
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const proveedors = await service.find(user.tenant);
+      res.json(proveedors);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
+router.get(
+  '/:proveedorId',
+  passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  validatorHandler(queryProveedorSchema, 'query'),
+  validatorHandler(getproveedorSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const {  proveedorId } = req.params;
+      const proveedor = await service.findOne(
+        user.tenant,
+        proveedorId,
+        req.query
+      );
+      res.json(proveedor);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  validatorHandler(createproveedorSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const Newproveedor = await service.create(req.body);
+      res.json(Newproveedor);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+router.patch(
+  '/:proveedorId',
+  passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  validatorHandler(getproveedorSchema, 'params'),
+  validatorHandler(updateproveedorSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const { proveedorId } = req.params;
+      const xupdate = await service.update(user.tenant, proveedorId, req.body);
+      res.json(xupdate);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
+router.delete(
+  '/:proveedorId',
+  passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  validatorHandler(getproveedorSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const { proveedorId } = req.params;
+      const delX = await service.delete(user.tenant, proveedorId);
+      res.json(delX);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
-
-module.exports=router;
+module.exports = router;

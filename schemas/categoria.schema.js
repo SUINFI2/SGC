@@ -1,5 +1,5 @@
 const joi = require('joi');
-const id = joi.number().integer();
+const categoriaId = joi.number().integer();
 const negocioId = joi.number().integer();
 const nombre = joi.string().min(3);
 const productos = joi.bool();
@@ -13,9 +13,7 @@ const updatecategoriaSchema = joi.object({
   nombre
 });
 const getcategoriaSchema = joi.object({
-
-  negocioId: negocioId.required(),
-  id: id.required()
+  categoriaId: categoriaId.required()
 });
 const queryCategoriaSchema = joi.object({
   limit,

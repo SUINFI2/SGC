@@ -27,7 +27,6 @@ const updateclienteSchema = joi.object({
 
 });
 const getclienteSchema = joi.object({
-  negocioId: id.required(),
   clienteId: id.required()
 });
 const queryClienteSchema = joi.object({

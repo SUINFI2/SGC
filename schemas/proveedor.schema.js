@@ -25,7 +25,6 @@ const updateproveedorSchema = joi.object({
   email
 });
 const getproveedorSchema = joi.object({
-  negocioId: negocioId.required(),
   proveedorId: id.required()
 });
 const queryProveedorSchema = joi.object({

@@ -121,6 +121,11 @@ class VentasService {
     }
     return venta;
   }
+  async findByUser(usuarioId){
+    const ventas = await models.Venta.findAll({where:{usuarioId:usuarioId}});
+    if(!ventas){ throw boom.notFound('Ventas Not Found');}
+    return ventas;
+  }
   async update(negocioId, ventaId, change) {
     const venta = await this.findOne(negocioId, ventaId);
 

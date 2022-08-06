@@ -18,7 +18,6 @@ const updatedepositoSchema = joi.object({
   direccion,
 });
 const getdepositoSchema = joi.object({
-  negocioId: negocioId.required(),
   depositoId: depositoId.required()
 });
 

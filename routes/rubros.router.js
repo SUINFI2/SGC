@@ -1,12 +1,16 @@
 const express = require('express');
-const router = express.Router();
+
+const validatorHandler = require('../middlewares/validator.handler');
+const passport = require('passport');
+const {checkRoles}=require('../middlewares/auth.handler');
+
 const RubrosService = require('../services/rubros.service');
 const service = new RubrosService();
-const {getnegocioSchema} = require('../schemas/negocio.schema');
-const validatorHandler = require('../middlewares/validator.handler');
+const router = express.Router();
 
 router.get('/',
-validatorHandler(getnegocioSchema,'query'),
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
 async (req, res, next) => {
   try {
     const rubros = await service.find(req.query);
@@ -16,7 +20,10 @@ async (req, res, next) => {
   }
 });
 
-router.post('/generate', async (req, res, next) => {
+router.post('/generate',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+async (req, res, next) => {
   try {
     const rubros = await service.generate();
     res.json({

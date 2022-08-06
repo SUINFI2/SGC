@@ -17,7 +17,6 @@ const updatepagoSchema = joi.object({
   monto
 });
 const getpagoSchema = joi.object({
-  negocioId: negocioId.required(),
   pagoId: pagoId.required()
 });
 

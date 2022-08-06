@@ -1,54 +1,67 @@
 const express=require('express');
-const router=express.Router();
-const ClientesService = require('../services/clientes.service');
-const service = new ClientesService();
+const validatorHandler = require('../middlewares/validator.handler');
+const passport = require('passport');
+const {checkRoles}=require('../middlewares/auth.handler');
 const  {
   createclienteSchema,
   updateclienteSchema,
   getclienteSchema,
   queryClienteSchema
   } = require('../schemas/cliente.schema');
+const ClientesService = require('../services/clientes.service');
 
-  const {getnegocioSchema} = require('../schemas/negocio.schema');
-  const validatorHandler = require('../middlewares/validator.handler');
-  router.get('/:negocioId',
-validatorHandler(getnegocioSchema,'params'),
-async (req,res,next)=>{
+  const service = new ClientesService();
+  const router=express.Router();
+
+  router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin','seller'),
+  async (req,res,next)=>{
   try{
-    const {negocioId} = req.params;
-    const clientes=await service.find(negocioId);
+    const user = req.user;
+    const clientes=await service.find(user.tenant);
     res.json(clientes);
   }catch(err){
     next(err);
   }
 });
-router.get('/:negocioId/:clienteId',
+
+router.get('/:clienteId',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin','seller'),
 validatorHandler(queryClienteSchema, 'query'),
 validatorHandler(getclienteSchema, 'params'),
 async (req,res,next)=>{
   try{
-    const{negocioId,clienteId}=req.params;
-  const cliente = await service.findOne(negocioId,clienteId,req.query);
+    const user = req.user;
+    const{clienteId}=req.params;
+  const cliente = await service.findOne(user.tenant,clienteId,req.query);
   res.json(cliente);
   }catch(err){
     next(err);
   }
 });
+
 router.post('/',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin','seller'),
 validatorHandler(createclienteSchema,'body'),
 async (req, res,next) => {
   try{
     const Newcliente = await service.create(req.body);
     res.json(Newcliente);}catch(err){next(err);}
 });
-router.patch('/:negocioId/:clienteId',
+router.patch('/:clienteId',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin','seller'),
 validatorHandler(getclienteSchema,'params'),
 validatorHandler(updateclienteSchema,'body'),
 async (req, res,next) => {
   try{
-    const { negocioId,clienteId } = req.params;
+    const user = req.user;
+    const { clienteId } = req.params;
     const body = req.body;
-    const cliUpdate = await service.update(negocioId,clienteId,body);
+    const cliUpdate = await service.update(user.tenant,clienteId,body);
     res.json(cliUpdate);
   }
   catch(err){
@@ -56,12 +69,15 @@ async (req, res,next) => {
   }
 });
 
-router.delete('/:negocioId/:clienteId',
+router.delete('/:clienteId',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getclienteSchema,'params'),
   async(req, res,next) => {
   try{
-    const { negocioId,clienteId } = req.params;
-  const delClie = await service.delete(negocioId,clienteId);
+    const user = req.user;
+    const { clienteId } = req.params;
+  const delClie = await service.delete(user.tenant,clienteId);
   res.json(delClie);
   }catch(err){
     next(err);

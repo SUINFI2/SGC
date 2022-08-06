@@ -15,18 +15,17 @@ const createusuarioSchema = joi.object({
   direccion: direccion.required(),
   email:email.required(),
   password:password.required(),
-  //role:role.required()
+  role:role.required()
 });
 const updateusuarioSchema = joi.object({
  nombre,
  celular,
  direccion,
  email,
- password
- //role
+ password,
+ role
 });
 const getusuarioSchema = joi.object({
-  negocioId: id.required(),
   usuarioId: id.required()
 });
 

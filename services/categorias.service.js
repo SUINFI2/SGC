@@ -32,15 +32,16 @@ class CategoriasService {
     return negocio.categorias;
   }
   async findOne(negocioId, categoriaId,query) {
-    var options= {include: []};
+    var options= {include:[]};
     const categoria = await models.Categoria.findByPk(categoriaId,options);
     if (!categoria) {
-      throw boom.notFound('categoria Not Found');
+      throw boom.notFound('categoria Not Foundd');
     }
     if(categoria.negocioId != negocioId){throw boom.conflict('La Categoria no pertenece al Negocio');}
     return categoria;
   }
   async update(negocioId, categoriaId, change) {
+    console.log("---->"+negocioId);
     const categoria = await this.findOne(negocioId, categoriaId);
     const rta = await categoria.update(change);
     return rta;

@@ -28,7 +28,6 @@ const updatecompraSchema = joi.object({
   confirmPago
 });
 const getcompraSchema = joi.object({
-  negocioId: negocioId.required(),
   compraId: compraId.required()
 });
 

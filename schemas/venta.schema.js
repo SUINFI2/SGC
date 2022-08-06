@@ -28,7 +28,6 @@ const updateventaSchema = joi.object({
   confirmCobro
 });
 const getventaSchema = joi.object({
-  negocioId: negocioId.required(),
   ventaId: ventaId.required()
 });
 
